@@ -1,0 +1,24 @@
+{
+  "name": "studentroomhub",
+  "version": "1.0.0",
+  "description": "A web platform that helps students find and book affordable rental rooms or guest houses in other cities. Property owners can create accounts and list their accommodations with details like price, location, and size. Built to make the student housing experience easy, reliable, and accessible.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/innovate-with-pratyush002/StudentRoomHub.git"
+  },
+  "author": "pratyush",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/innovate-with-pratyush002/StudentRoomHub/issues"
+  },
+  "homepage": "https://github.com/innovate-with-pratyush002/StudentRoomHub#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.14.3"
+  }
+}
