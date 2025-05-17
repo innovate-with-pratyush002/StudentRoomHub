@@ -1,18 +1,21 @@
 const express= require("express");
 const app= express();
 const mongoose = require("mongoose");
+const Listing= require("./models/listing.js")
+const path = require("path");
+
+app.set("view engine","ejs");
+app.set("views",path.join(__dirname,"views")); 
 
 
 const MONGO_URL="mongodb://127.0.0.1:27017/RoomForU";
-
 main()
       .then(()=>{
         console.log("connected to DB");
-      })
+       })
        .catch((err)=>{
         console.log(err);
        });
-
 
 async function main(){
     await mongoose.connect(MONGO_URL);
@@ -24,4 +27,22 @@ app.listen(3000,()=>{
 
 app.get("/",(req,res)=>{
     res.send("responce is sending successfully:");
+});
+
+// app.get("/testing",async(req,res)=>{
+//     let sample= new Listing({
+//         title: "room at khandari",
+//         description: "room with combined kitchen",
+//         price: 8000,
+//         location:"khandari",
+//         state:"uttaar pradesh"
+//     });
+//     await sample.save();
+//     console.log("sample is saved");
+//     res.send("successful testing");
+// })
+
+app.get("/listings",async(req,res)=>{
+    const allListings=await Listing.find({});
+    res.render("./listings/listing.ejs",{ allListings });
 });
