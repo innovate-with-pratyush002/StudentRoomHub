@@ -43,9 +43,21 @@ app.get("/",(req,res)=>{
 //     res.send("successful testing");
 // })
 
+//route for showing all listings
 app.get("/listings",async(req,res)=>{
     const allListings=await Listing.find({});
     res.render("./listings/listing.ejs",{ allListings });
+});
+
+//add route where we can add a new listing 
+app.get("/listings/new",(req,res)=>{
+    res.render("listings/addListing.ejs");
+});
+
+app.post("/listings",async(req,res)=>{
+    const newData = new Listing( req.body.place);
+    await newData.save();
+    res.redirect("/listings");
 });
 
 //detail route
@@ -54,3 +66,7 @@ app.get("/listings/:id",async(req,res)=>{
     const Data= await Listing.findById(id);
     res.render("./listings/detail.ejs",{ Data });
 });
+
+
+
+

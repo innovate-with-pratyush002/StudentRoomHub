@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoomForU</title>
+</head>
+<body>
+    <h1>ADD NEW LOCATION</h1>
+    <form method="POST" action="/listings">
+  <input type="text" name="place[title]" placeholder="Title">
+  <br>
+  <input type="text" name="place[description]" placeholder="Description">
+  <br>
+  <input type="text" name="place[image]" placeholder="Image">
+  <br>
+  <input type="number" name="place[price]" placeholder="Price">
+  <br>
+  <input type="text" name="place[location]" placeholder="Location">
+  <br>
+  <input type="text" name="place[state]" placeholder="State">
+  <br>
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>
