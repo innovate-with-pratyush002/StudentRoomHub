@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoomForU</title>
+</head>
+<body>
+    <h1>EDIT LOCATION</h1>
+    <form method="Post" action="/listings/<%=Data._id%>?_method=Put">
+  <input type="text" name="place[title]" value="<%=Data.title%>">
+  <br>
+  <input type="text" name="place[description]" value="<%=Data.description%>">
+  <br>
+  <input type="text" name="place[image]" value="<%=Data.image%>">
+  <br>
+  <input type="number" name="place[price]" value="<%=Data.price%>">
+  <br>
+  <input type="text" name="place[location]" value="<%=Data.location%>">
+  <br>
+  <input type="text" name="place[state]" value="<%=Data.state%>">
+  <br>
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>
