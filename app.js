@@ -45,13 +45,13 @@ app.get("/",(req,res)=>{
 //     res.send("successful testing");
 // })
 
-//route for showing all listings
+//route for showing all listings:=>
 app.get("/listings",async(req,res)=>{
     const allListings=await Listing.find({});
     res.render("./listings/listing.ejs",{ allListings });
 });
 
-//add route where we can add a new listing 
+//add route where we can add a new listing:=> 
 app.get("/listings/new",(req,res)=>{
     res.render("listings/addListing.ejs");
 });
@@ -62,20 +62,39 @@ app.post("/listings",async(req,res)=>{
     res.redirect("/listings");
 });
 
-//edit & update route
+
+//edit & update route:=>
+
+// MAI BAS TUMHARE BURE VAKT KA EK SAHARA THA, YE GALAT FAHMI THI MUJHE KI MAI TUMHARA THA.
+// NIND TO USS DIN TUTI HAMARI JAB TERE ISHQ KE PANNE PAR NAAA KAHI JIKRA HAMARA THA.
 app.get("/listings/:id/edit",async(req,res)=>{
      let {id}=req.params;
     const Data= await Listing.findById(id);
     res.render("./listings/edit.ejs",{ Data });
 });
-
 app.put("/listings/:id",async(req,res)=>{
     let{id}=req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.place});
     res.redirect(`/listings/${id}`);
 });
 
-//detail route
+
+//delete route:=>
+
+// NAA KISI KE SAATH KI UMMID, NAA HI KISI KA SAHAANA CHAHIE.
+// HAM THE ISS SAFAR ME AKELE AB HAME NAA SAATH TUMHARA CHAHIE. 
+app.delete("/listings/:id",async(req,res)=>{
+      let{id}=req.params;
+      await Listing.findByIdAndDelete(id);
+      res.redirect("/listings");
+});
+
+
+//detail route:=>
+
+// TERE AANKHO KI JO BAAT HAI, VO LAFJO ME KAHA AATI HAI.
+// INME CHHIPE HAI RAAJ KAYI,JAISE CHAND KI PARCHHYI HAI.
+// NAJRE JHUKI TO HYA LAGE, UTHE TO KAYAMAT LAAYI HAI.
 app.get("/listings/:id",async(req,res)=>{
     let {id}=req.params;
     const Data= await Listing.findById(id);
