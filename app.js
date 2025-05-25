@@ -32,18 +32,6 @@ app.get("/",(req,res)=>{
     res.send("responce is sending successfully:");
 });
 
-// app.get("/testing",async(req,res)=>{
-//     let sample= new Listing({
-//         title: "room at khandari",
-//         description: "room with combined kitchen",
-//         price: 8000,
-//         location:"khandari",
-//         state:"uttaar pradesh"
-//     });
-//     await sample.save();
-//     console.log("sample is saved");
-//     res.send("successful testing");
-// })
 
 //route for showing all listings:=>
 app.get("/listings",async(req,res)=>{
@@ -64,9 +52,6 @@ app.post("/listings",async(req,res)=>{
 
 
 //edit & update route:=>
-
-// MAI BAS TUMHARE BURE VAKT KA EK SAHARA THA, YE GALAT FAHMI THI MUJHE KI MAI TUMHARA THA.
-// NIND TO USS DIN TUTI HAMARI JAB TERE ISHQ KE PANNE PAR NAAA KAHI JIKRA HAMARA THA.
 app.get("/listings/:id/edit",async(req,res)=>{
      let {id}=req.params;
     const Data= await Listing.findById(id);
@@ -80,9 +65,6 @@ app.put("/listings/:id",async(req,res)=>{
 
 
 //delete route:=>
-
-// NAA KISI KE SAATH KI UMMID, NAA HI KISI KA SAHAANA CHAHIE.
-// HAM THE ISS SAFAR ME AKELE AB HAME NAA SAATH TUMHARA CHAHIE. 
 app.delete("/listings/:id",async(req,res)=>{
       let{id}=req.params;
       await Listing.findByIdAndDelete(id);
@@ -91,15 +73,14 @@ app.delete("/listings/:id",async(req,res)=>{
 
 
 //detail route:=>
-
-// TERE AANKHO KI JO BAAT HAI, VO LAFJO ME KAHA AATI HAI.
-// INME CHHIPE HAI RAAJ KAYI,JAISE CHAND KI PARCHHYI HAI.
-// NAJRE JHUKI TO HYA LAGE, UTHE TO KAYAMAT LAAYI HAI.
 app.get("/listings/:id",async(req,res)=>{
     let {id}=req.params;
     const Data= await Listing.findById(id);
     res.render("./listings/detail.ejs",{ Data });
 });
+
+// MAI BAS TUMHARE BURE VAKT KA EK SAHARA THA, YE GALAT FAHMI THI MUJHE KI MAI TUMHARA THA.
+// NIND TO USS DIN TUTI HAMARI JAB TERE ISHQ KE PANNE PAR NAAA KAHI JIKRA HAMARA THA.
 
 
 
