@@ -1,3 +1,15 @@
-body{
-    background-color:hotpink;
+
+.navbar{
+    height: 4.5rem;
+    background-color: white !important;
+    color: black;
+    font-weight: 500;
+   
+}
+.fa-star{
+  color: rgb(6, 136, 162);
+}
+
+.nav-link{
+    color: black !important;
 }

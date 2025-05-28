@@ -1,8 +1,15 @@
 <% layout('layouts/boilerplate') -%>
 <body>
- <h1> All Listings:</h1>
+ <h1 style="margin-left:5rem; margin-top: 3rem; font-size: 3rem;">Find and book <br> student rentals</h1>
+ <p style="margin-left:5rem; margin-top: 0.5rem;">Search for affordable rooms and guest houses in other cities.</p>
  <form method="Get" action="/listings/new">
     <button>Add a new Location</button>
+
+<!-- Listing section -->
+    <% for(let list of allListings){ %>
+   
+            <%}%>
+<!-- Listings -->
  </form>
         <ul>
             <% for(let list of allListings){ %>
