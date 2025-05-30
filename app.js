@@ -32,7 +32,7 @@ app.listen(3000,()=>{
 });
 
 app.get("/",(req,res)=>{
-    res.send("responce is sending successfully:");
+    res.render("./listings/home.ejs");
 });
 
 
