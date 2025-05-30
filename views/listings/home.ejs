@@ -3,4 +3,18 @@
 <body>
 <h1 style="margin-left:5rem; margin-top: 3rem; font-size: 3rem;">Find and book <br> student rentals</h1>
  <p style="margin-left:5rem; margin-top: 0.5rem;">Search for affordable rooms and guest houses in other cities.</p>
+
+ <!-- Cards -->
+   <% for(let list of allListings){ %>
+   <div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title"><%= list.title %></h5>
+    <p class="card-text"><%= list.description %></p>
+    <a href="/listings/<%=list._id%>" class="btn btn-primary">All Details</a>
+  </div>
+</div>
+            <%}%>
+ 
+
 </body>

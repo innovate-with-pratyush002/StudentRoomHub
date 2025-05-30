@@ -31,8 +31,9 @@ app.listen(3000,()=>{
     console.log("app is listening");
 });
 
-app.get("/",(req,res)=>{
-    res.render("./listings/home.ejs");
+app.get("/",async(req,res)=>{
+    const allListings=await Listing.find({});
+    res.render("./listings/home.ejs",{allListings});
 });
 
 
