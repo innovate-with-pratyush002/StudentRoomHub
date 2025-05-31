@@ -1,0 +1,77 @@
+/* Container */
+.form-container {
+  max-width: 600px;
+  margin: auto;
+  margin-top:2rem;
+  margin-bottom: 2rem;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.form-container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  color: #1a1a1a;
+  text-transform: uppercase;
+}
+
+/* Form */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-form label {
+  font-weight: 600;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.edit-form input {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.edit-form input:focus {
+  border-color: rgb(6, 149, 162);
+}
+
+/* Submit button */
+.edit-form button {
+  margin-top: 25px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  background-color: rgb(6, 149, 162);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.edit-form button:hover {
+  background-color: rgb(4, 122, 133);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-container {
+    padding: 20px;
+  }
+
+  .form-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .edit-form input, .edit-form button {
+    font-size: 0.95rem;
+  }
+}
