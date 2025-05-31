@@ -1,20 +1,21 @@
 <% layout('layouts/boilerplate') -%>
-
+<link rel="stylesheet" href="/CSS/listings.css">
 <body>
-<h1 style="margin-left:5rem; margin-top: 3rem; font-size: 3rem;">Find and book <br> student rentals</h1>
+<h1 style="margin-left:5rem; margin-top: 1rem; font-size: 3rem;">Find and book <br> student rentals</h1>
  <p style="margin-left:5rem; margin-top: 0.5rem;">Search for affordable rooms and guest houses in other cities.</p>
 
  <!-- Cards -->
-   <% for(let list of allListings){ %>
-   <div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><%= list.title %></h5>
-    <p class="card-text"><%= list.description %></p>
-    <a href="/listings/<%=list._id%>" class="btn btn-primary">All Details</a>
-  </div>
+<div class="card-container">
+  <% allListings.forEach((list, index) => { %>
+    <div class="card <%= index % 3 === 0 ? 'first-card' : '' %> <%= index % 3 === 2 ? 'last-card' : '' %>">
+      <h2 class="card-title"><%= list.title %></h2>
+      <img src="https://r1imghtlak.mmtcdn.com/e637d4e08eff11ec876c0a58a9feac02.jpg" alt="Card Image" class="card-img" />
+      <p class="card-desc"><%= list.description %></p>
+      <a href="/listings/<%=list._id%>"><button class="card-btn">Details</button></a>
+    </div>
+  <% }) %>
 </div>
-            <%}%>
+
  
 
 </body>

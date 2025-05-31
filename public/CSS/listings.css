@@ -1,0 +1,142 @@
+
+/* Grid container for cards */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 0 2rem;
+  justify-content: center;
+  margin:3rem 8rem 0rem 8rem;
+}
+
+/* Individual card styling */
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
+  width: 100%;
+
+   position: relative;         
+  padding-bottom: 3rem; 
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+}
+
+.card-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  object-fit: cover;
+}
+
+.card-desc {
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.card-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: rgb(6, 149, 162);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  width:80%;
+  position: absolute;       
+  bottom: 10px;                  
+  left: 50%;                   
+  transform: translateX(-50%);
+}
+
+.card-btn:hover {
+  background-color: rgb(7, 134, 146);
+}
+
+/* Spacing for first and last cards in each row (only on large screens) */
+.first-card {
+  padding-left: 2rem;
+}
+
+.last-card {
+  padding-right: 2rem;
+}
+
+.btn{
+    
+}
+
+/* ========== Responsive Breakpoints ========== */
+
+/* Large laptops and desktops (max 1200px) */
+@media (max-width: 1200px) {
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 1rem;
+  }
+
+  .first-card, .last-card {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Tablets & small laptops (max 992px) */
+@media (max-width: 992px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1rem;
+  }
+
+  .first-card,
+  .last-card {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Large Phones (max 768px) */
+@media (max-width: 768px) {
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+}
+
+/* Small Phones (max 480px) */
+@media (max-width: 480px) {
+  .card {
+    padding: 0.8rem;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  .card-desc {
+    font-size: 0.95rem;
+  }
+
+  .card-btn {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+}
