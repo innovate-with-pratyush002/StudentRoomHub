@@ -1,5 +1,7 @@
 <% layout('layouts/boilerplate') -%>
-<body>
+<link rel="stylesheet" href="/CSS/addlisting.css">
+
+<!-- <body>
     <h1>ADD NEW LOCATION</h1>
     <form method="POST" action="/listings">
   <input type="text" name="place[title]" placeholder="Title">
@@ -16,4 +18,20 @@
   <br>
   <button type="submit">Submit</button>
 </form>
+</body> -->
+
+
+<body>
+  <div class="form-container">
+    <h1>ADD NEW LOCATION</h1>
+    <form class="location-form" method="Post" action="/listings">
+      <input type="text" name="place[title]" placeholder="Title">
+      <input type="text" name="place[description]" placeholder="Description">
+      <input type="text" name="place[image]" placeholder="Image">
+      <input type="number" name="place[price]" placeholder="Price">
+      <input type="text" name="place[location]" placeholder="Location">
+      <input type="text" name="place[state]" placeholder="State">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 </body>
