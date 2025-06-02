@@ -2,29 +2,14 @@
 <link rel="stylesheet" href="/CSS/detail.css">
 
 <body>
-  <!-- <h1>Listing Detail</h1>
-   <ul>
-     <li><%=Data.title %></li>
-     <li><%=Data.description %></li>
-     <li>&#8377; <%=Data.price.toLocaleString("en-In") %></li>
-     <li><%=Data.location %></li>
-     <li><%=Data.state %></li>
-   </ul>
-    <button><a href="/listings/<%=Data._id%>/edit">Edit</a></button>
-   </body>
-   <form method="post" action="/listings/<%= Data._id%>?_method=DELETE">
-    <button>Delete Listing</button>
-   </form> -->
-
-
-
-
+ 
   <div class="container">
     <h1>Listing Detail</h1>
+    <div class="cardImg"><img src="<%=Data.image%>" alt="Card Image" class="card-img"/></div>
     <ul class="listing-info">
       <li><strong>Title:</strong><%=Data.title %></li>
       <li><strong>Description:</strong><%=Data.description %></li>
-      <li><strong>Price:</strong>&#8377; <%=Data.price.toLocaleString("en-In") %></li>
+      <li><strong>Price:</strong>&#8377; <%=Data.price.toLocaleString("en-In") %>/month</li>
       <li><strong>Location:</strong><%=Data.location %></li>
       <li><strong>State:</strong><%=Data.state %></li>
     </ul>

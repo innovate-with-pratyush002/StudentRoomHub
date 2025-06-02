@@ -29,6 +29,18 @@
   font-size: 1rem;
 }
 
+/* image */
+.cardImg{
+ height:30rem; 
+ overflow: hidden;
+ border-radius: 10px;
+}
+.card-img{
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover;
+}
+
 /* Buttons */
 .buttons {
   display: flex;
@@ -83,4 +95,7 @@
     width: 100%;
     text-align: center;
   }
+  .cardImg{
+ height:15rem; 
+}
 }
