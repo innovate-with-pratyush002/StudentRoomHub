@@ -5,14 +5,15 @@
 <body>
   <div class="form-container">
     <h1>ADD NEW LOCATION</h1>
-    <form class="location-form" method="Post" action="/listings">
-      <input type="text" name="place[title]" placeholder="Title">
-      <input type="text" name="place[description]" placeholder="Description">
-      <input type="text" name="place[image]" placeholder="Image">
-      <input type="number" name="place[price]" placeholder="Price">
-      <input type="text" name="place[location]" placeholder="Location">
-      <input type="text" name="place[state]" placeholder="State">
+    <form class="location-form " method="Post" action="/listings" >
+      <input type="text" name="place[title]" placeholder="Title" required>
+      <input type="text" name="place[description]" placeholder="Description" required>
+      <input type="text" name="place[image]" placeholder="Image" required >
+      <input type="number" name="place[price]" placeholder="Price" required>
+      <input type="text" name="place[location]" placeholder="Location" required>
+      <input type="text" name="place[state]" placeholder="State" required>
       <button type="submit">Submit</button>
     </form>
   </div>
+ <script src="./public/js/validation.js"></script>
 </body>

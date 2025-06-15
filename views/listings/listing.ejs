@@ -13,7 +13,12 @@
       <div class="card">
       <h2 class="card-title"><%= list.title %></h2>
       <img src="<%=list.image%>" alt="Card Image" class="card-img" />
-      <p class="card-desc"><strong>Price:</strong>&#8377; <%=list.price.toLocaleString("en-In") %>/month</p>
+      <p class="card-desc">
+        <strong>Price:</strong> ₹ 
+        <%= (list.price && typeof list.price === 'number') 
+        ? list.price.toLocaleString("en-IN") 
+        : "N/A" %>/month
+      </p>
       <p class="card-desc"><strong>Location:</strong><%=list.location %></p>
       <p class="card-desc"><strong>State:</strong><%=list.state %></p>
       <a href="/listings/<%=list._id%>"><button class="card-btn">Details</button></a>
