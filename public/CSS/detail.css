@@ -99,3 +99,21 @@
  height:15rem; 
 }
 }
+
+.comment{
+  display: flex;
+  flex-direction: column;
+}
+textarea {
+  resize: vertical; 
+  padding: 8px;
+  font-size: 16px;
+}
+#reviewbtn{
+  margin-top:10px;
+  border-radius:5px;
+}
+#reviewbtn:hover{
+  color:white;
+  background-color: black;
+}

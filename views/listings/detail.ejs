@@ -20,6 +20,23 @@
     <button  class="btn edit-btn">Delete Listing</button>
    </form>
     </div>
+
+    <hr>
+
+    <div class="review">
+      <h3>ADD REVIEW</h3>
+      <form action="/listings/<%= Data.id %>/reviews" method="Post" >
+        <div>
+          <label style="font-weight: bold;" for="rating">Rating</label>
+          <input type="range" min="1" max="5" id="rating" name="review[rating]">
+        </div>
+        <div class="comment">
+          <label style="font-weight: bold;" for="comment">Comment</label>
+          <textarea class="textarea" name="review[comment]" cols="40" rows="5"></textarea>
+        </div>
+        <button id="reviewbtn">Submit</button>
+      </form>
+    </div>
   </div>
 </body>
 
