@@ -32,10 +32,28 @@
         </div>
         <div class="comment">
           <label style="font-weight: bold;" for="comment">Comment</label>
-          <textarea class="textarea" name="review[comment]" cols="40" rows="5"></textarea>
+          <textarea class="textarea" name="review[comment]" cols="40" rows="5" required></textarea>
         </div>
-        <button id="reviewbtn">Submit</button>
+        <button class="reviewbtn">Submit</button>
       </form>
+
+      <hr>
+      <h4>All Reviews:</h4>
+     
+ <div class="rebx">
+  <% for(let review of Data.reviews){ %>
+    <div class="rbx-box">
+       <h3 class="rbx-heading"><%= review.username || "Unknown User" %></h3>
+       <p class="rbx-description"><%= review.comment %></p>
+       <div class="rbx-rating">⭐ <%= review.rating %></div>
+
+        <form method="Post" action="/listings/<%=Data.id%>/reviews/<%=review.id%>?_method=DELETE"><button class="reviewbtn">Delete</button>   </form>
+                          
+
+    </div>
+  <% } %>
+ </div>
+
     </div>
   </div>
 </body>

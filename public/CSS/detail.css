@@ -109,11 +109,79 @@ textarea {
   padding: 8px;
   font-size: 16px;
 }
-#reviewbtn{
+.reviewbtn{
   margin-top:10px;
   border-radius:5px;
 }
-#reviewbtn:hover{
+.reviewbtn:hover{
   color:white;
   background-color: black;
+}
+
+
+/* for rating section */
+.rebx {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.rbx-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  flex: 1 1 300px;
+  max-width: 500px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rbx-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.rbx-heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.rbx-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.rbx-rating {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #f39c12;
+}
+
+@media (max-width: 768px) {
+  .rbx-heading {
+    font-size: 1.1rem;
+  }
+  .rbx-description {
+    font-size: 0.9rem;
+  }
+  .rbx-rating {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rebx {
+    padding: 10px;
+    gap: 15px;
+  }
+  .rbx-box {
+    padding: 15px;
+  }
 }

@@ -85,7 +85,7 @@ app.delete("/listings/:id",wrapAsync(async(req,res)=>{
 //detail route:=>
 app.get("/listings/:id",wrapAsync(async(req,res)=>{
     let {id}=req.params;
-    const Data= await Listing.findById(id);
+    const Data= await Listing.findById(id).populate("reviews");
     res.render("./listings/detail.ejs",{ Data });
 }));
 
@@ -99,6 +99,14 @@ app.post("/listings/:id/reviews",async(req,res)=>{
     res.redirect(`/listings/${listing.id}`);
 });
 
+//delete review route
+app.delete("/listings/:id/reviews/:reviewId",wrapAsync(async(req,res)=>{
+    let{id,reviewId}=req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: {reviews: reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
+}));
+
 
 // app.get("*",(req,res,next)=>{
 // res.send("somethink went wrong");
@@ -110,6 +118,16 @@ app.use((err,req,res,next)=>{
     let{status=500,message="Something Went Wrong!"}=err;
     res.status(status).send(message); 
 });
+
+
+
+
+
+
+
+
+
+
 
 
 
