@@ -1,0 +1,54 @@
+<%if(success && success.length){%>
+    <div class="successFlash">
+  <span class="closeFlash">&times;</span>
+  <%= success %>
+</div>
+<%}%>
+
+<style>
+  .successFlash {
+    position: relative;
+    background-color: rgb(50, 179, 191);
+    color: #fff;
+    padding: 15px 40px 15px 20px; 
+    border-radius: 8px;
+    margin: 20px auto;
+    width: fit-content;
+    max-width: 90%;
+    height: 4rem;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .successFlash .closeFlash {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .successFlash .closeFlash:hover {
+    transform: scale(1.2);
+  }
+
+  .successFlash:hover {
+    transform: scale(1.02);
+  }
+</style>
+
+<script>
+  const closeBtn = document.querySelector('.closeFlash');
+  closeBtn.addEventListener('click', () => {
+    const flash = document.querySelector('.successFlash');
+    flash.remove();
+  });
+</script>
+
+

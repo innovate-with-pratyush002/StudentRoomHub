@@ -19,6 +19,7 @@ router.get("/new",(req,res)=>{
 router.post("/",wrapAsync(async(req,res)=>{
     const newData = new Listing( req.body.place);
     await newData.save();
+    req.flash("success","New location added successfully!");
     res.redirect("/listings");
 }));
 

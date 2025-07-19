@@ -9,6 +9,8 @@ const wrapAsync= require("./utils/wrapAsync.js");
 const ExpressError= require("./utils/ExpressError.js");
 const listingsRoute= require("./routes/listing.js");
 const reviewRoute= require("./routes/review.js");
+const session= require("express-session");
+const flash= require("connect-flash");
 
 
 app.set("view engine","ejs");
@@ -17,6 +19,23 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
+
+
+
+const sessionDetail={
+    secret:"who is tukku?",
+    resave: false,
+    saveUninitialized: true,
+
+    cookie:{
+        expires: Date.now()+5*24*60*60*1000,
+        maxAge:5*24*60*60*1000,
+        httpOnly: true
+    }
+};
+
+app.use(session(sessionDetail));
+app.use(flash());
 
 
 const MONGO_URL="mongodb://127.0.0.1:27017/RoomForU";
@@ -43,6 +62,13 @@ app.get("/",wrapAsync(async(req,res)=>{
     res.render("./listings/home.ejs",{allListings});
 }));
 
+
+//middleware for flash message
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    next();
+})
+
 app.use("/listings",listingsRoute);
 app.use("/listings/:id/reviews",reviewRoute);
 
@@ -52,7 +78,7 @@ app.use("/listings/:id/reviews",reviewRoute);
 // res.send("somethink went wrong");
 // });
 
-
+    
 // middleware for error handling
 app.use((err,req,res,next)=>{
     let{status=500,message="Something Went Wrong!"}=err;
