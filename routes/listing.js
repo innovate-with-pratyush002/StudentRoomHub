@@ -33,6 +33,7 @@ router.get("/:id/edit",wrapAsync(async(req,res)=>{
 router.put("/:id",wrapAsync(async(req,res)=>{
     let{id}=req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.place});
+        req.flash("success","Location Detail Edited!");
     res.redirect(`/listings/${id}`);
 }));
 
@@ -41,6 +42,7 @@ router.put("/:id",wrapAsync(async(req,res)=>{
 router.delete("/:id",wrapAsync(async(req,res)=>{
       let{id}=req.params;
       await Listing.findByIdAndDelete(id);
+          req.flash("success","Listing is Deleted!");
       res.redirect("/listings");
 }));
 
