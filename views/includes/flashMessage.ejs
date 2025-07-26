@@ -5,6 +5,14 @@
 </div>
 <%}%>
 
+
+<%if(error && error.length){%>
+    <div class="successFlash">
+  <span class="closeFlash">&times;</span>
+  <%= error %>
+</div>
+<%}%>
+
 <style>
   .successFlash {
     position: relative;

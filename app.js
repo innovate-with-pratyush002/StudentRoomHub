@@ -11,6 +11,9 @@ const listingsRoute= require("./routes/listing.js");
 const reviewRoute= require("./routes/review.js");
 const session= require("express-session");
 const flash= require("connect-flash");
+const passport=require("passport");
+const LocalStrategy= require("passport-local");
+const userAuth=require("./models/authentication.js");
 
 
 app.set("view engine","ejs");
@@ -38,6 +41,15 @@ app.use(session(sessionDetail));
 app.use(flash());
 
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(userAuth.authenticate()));
+
+passport.serializeUser(userAuth.serializeUser());
+passport.deserializeUser(userAuth.deserializeUser());
+
+
+
 const MONGO_URL="mongodb://127.0.0.1:27017/RoomForU";
 main()
       .then(()=>{
@@ -62,10 +74,20 @@ app.get("/",wrapAsync(async(req,res)=>{
     res.render("./listings/home.ejs",{allListings});
 }));
 
+app.get("/check",async(req,res)=>{
+    const userdetail= new userAuth({
+        name:"pratyush",
+        email:"pratyush1532@gmail.com",
+        username:"pratyush_1532"
+    });
+    let newUser= await userAuth.register(userdetail,"123@pttt");
+    res.send(newUser);
+});
 
 //middleware for flash message
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
+    res.locals.error=req.flash("error");
     next();
 })
 
