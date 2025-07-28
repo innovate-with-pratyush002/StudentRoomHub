@@ -9,11 +9,13 @@ const wrapAsync= require("./utils/wrapAsync.js");
 const ExpressError= require("./utils/ExpressError.js");
 const listingsRoute= require("./routes/listing.js");
 const reviewRoute= require("./routes/review.js");
+const authenticationRoute= require("./routes/authentication.js");
 const session= require("express-session");
 const flash= require("connect-flash");
 const passport=require("passport");
 const LocalStrategy= require("passport-local");
 const userAuth=require("./models/authentication.js");
+
 
 
 app.set("view engine","ejs");
@@ -25,6 +27,7 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 
 
+//Session 
 const sessionDetail={
     secret:"who is tukku?",
     resave: false,
@@ -36,11 +39,12 @@ const sessionDetail={
         httpOnly: true
     }
 };
-
 app.use(session(sessionDetail));
 app.use(flash());
 
 
+
+//Passport for Authentication
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(userAuth.authenticate()));
@@ -50,6 +54,7 @@ passport.deserializeUser(userAuth.deserializeUser());
 
 
 
+//mongoose Connection
 const MONGO_URL="mongodb://127.0.0.1:27017/RoomForU";
 main()
       .then(()=>{
@@ -66,6 +71,7 @@ async function main(){
 app.listen(3000,()=>{
     console.log("app is listening");
 });
+
 
 
 //home route
@@ -91,9 +97,10 @@ app.use((req,res,next)=>{
     next();
 })
 
+//Routes
 app.use("/listings",listingsRoute);
 app.use("/listings/:id/reviews",reviewRoute);
-
+app.use("/",authenticationRoute);
 
 
 // app.all("*",(req,res,next)=>{
