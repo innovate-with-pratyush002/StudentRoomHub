@@ -80,15 +80,15 @@ app.get("/",wrapAsync(async(req,res)=>{
     res.render("./listings/home.ejs",{allListings});
 }));
 
-app.get("/check",async(req,res)=>{
-    const userdetail= new userAuth({
-        name:"pratyush",
-        email:"pratyush1532@gmail.com",
-        username:"pratyush_1532"
-    });
-    let newUser= await userAuth.register(userdetail,"123@pttt");
-    res.send(newUser);
-});
+// app.get("/check",async(req,res)=>{
+//     const userdetail= new userAuth({
+//         name:"pratyush",
+//         email:"pratyush1532@gmail.com",
+//         username:"pratyush_1532"
+//     });
+//     let newUser= await userAuth.register(userdetail,"123@pttt");
+//     res.send(newUser);
+// });
 
 //middleware for flash message
 app.use((req,res,next)=>{

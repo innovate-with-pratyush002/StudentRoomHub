@@ -14,41 +14,44 @@
 <%}%>
 
 <style>
-  .successFlash {
-    position: relative;
-    background-color: rgb(50, 179, 191);
-    color: #fff;
-    padding: 15px 40px 15px 20px; 
-    border-radius: 8px;
-    margin: 20px auto;
-    width: fit-content;
-    max-width: 90%;
-    height: 4rem;
-    font-size: 1rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
+ .successFlash {
+  position: relative;
+  background-color: rgb(50, 179, 191);
+  color: #fff;
+  padding: 15px 40px 15px 20px; 
+  border-radius: 8px;
+  margin: 20px auto;
+  width: fit-content;
+  max-width: 90%;
+  height: auto;   /* FIX: fixed height मत दो */
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
 
-  .successFlash .closeFlash {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
+.successFlash .closeFlash {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 24px;  /* सही size */
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  line-height: 1; /* FIX: extra gap हटेगा */
+}
 
-  .successFlash .closeFlash:hover {
-    transform: scale(1.2);
-  }
+.successFlash .closeFlash:hover {
+  transform: translateY(-50%) scale(1.2); /* Center वाला translateY रखना ही पड़ेगा */
+}
 
-  .successFlash:hover {
-    transform: scale(1.02);
-  }
+.successFlash:hover {
+  transform: scale(1.02);
+}
+
 </style>
 
 <script>

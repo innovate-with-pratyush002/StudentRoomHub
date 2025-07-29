@@ -10,11 +10,17 @@ router.get("/signup",(req,res)=>{
     res.render("./userAuthentication/signup.ejs");
 });
 
-router.post("/",wrapAsync(async(req,res)=>{
-    const newData = new Registration( req.body.place);
-    await newData.save();
-    req.flash("success","You Register Successfully!");
+router.post("/signup",wrapAsync(async(req,res)=>{
+   try{
+     const newData = new Registration( req.body.place);
+    const password = req.body.place.password;
+    await Registration.register(newData, password);
+    req.flash("success","You Have Registered Successfully!");
     res.redirect("/listings");
+   }catch(e){
+      req.flash("error",e.message);
+        res.redirect("/signup");
+   }
 }));
 
 
