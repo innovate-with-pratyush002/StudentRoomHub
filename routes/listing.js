@@ -5,14 +5,22 @@ const ExpressError= require("../utils/ExpressError.js");
 const router= express.Router();
 
 
+// Middleware for auth check
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) return next();
+    res.redirect('/signin');
+};
+
+
 //route for showing all listings:=>
-router.get("/",wrapAsync(async(req,res)=>{
+router.get("/",isLoggedIn,wrapAsync(async(req,res)=>{
     const allListings=await Listing.find({});
     res.render("./listings/listing.ejs",{ allListings });
 }));
 
+
 //add route where we can add a new listing:=> 
-router.get("/new",(req,res)=>{
+router.get("/new",isLoggedIn,(req,res)=>{
     res.render("listings/addListing.ejs");
 });
 
@@ -25,7 +33,7 @@ router.post("/",wrapAsync(async(req,res)=>{
 
 
 //edit & update route:=>
-router.get("/:id/edit",wrapAsync(async(req,res)=>{
+router.get("/:id/edit",isLoggedIn,wrapAsync(async(req,res)=>{
      let {id}=req.params;
     const Data= await Listing.findById(id);
      if(!Data){
@@ -43,7 +51,7 @@ router.put("/:id",wrapAsync(async(req,res)=>{
 
 
 //delete route:=>
-router.delete("/:id",wrapAsync(async(req,res)=>{
+router.delete("/:id",isLoggedIn,wrapAsync(async(req,res)=>{
       let{id}=req.params;
       await Listing.findByIdAndDelete(id);
       req.flash("success","Listing is Deleted!");
@@ -52,7 +60,7 @@ router.delete("/:id",wrapAsync(async(req,res)=>{
 
 
 //detail route:=>
-router.get("/:id",wrapAsync(async(req,res)=>{
+router.get("/:id",isLoggedIn,wrapAsync(async(req,res)=>{
     let {id}=req.params;
     const Data= await Listing.findById(id).populate("reviews");
      if(!Data){
@@ -61,5 +69,8 @@ router.get("/:id",wrapAsync(async(req,res)=>{
     }
     res.render("./listings/detail.ejs",{ Data });
 }));
+
+
+
 
 module.exports=router;

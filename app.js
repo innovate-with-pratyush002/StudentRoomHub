@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express= require("express");
 const app= express();
 const mongoose = require("mongoose");
@@ -15,6 +16,8 @@ const flash= require("connect-flash");
 const passport=require("passport");
 const LocalStrategy= require("passport-local");
 const userAuth=require("./models/authentication.js");
+const GoogleStrategy= require("passport-google-oauth20").Strategy;
+
 
 
 
@@ -49,8 +52,67 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(userAuth.authenticate()));
 
-passport.serializeUser(userAuth.serializeUser());
-passport.deserializeUser(userAuth.deserializeUser());
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "http://localhost:3000/auth/google/callback"
+},
+  async (accessToken, refreshToken, profile, done) => {
+  try {
+    const email = profile.emails?.[0]?.value;
+
+    // find by googleId
+    let user = await userAuth.findOne({ googleId: profile.id });
+
+    if (user) {
+      // if exist, then direct return
+      return done(null, user);
+    }
+
+    // find by email
+    user = await userAuth.findOne({ email: email });
+
+    if (user) {
+      // email matched → update googleId 
+      user.googleId = profile.id;
+      user.name = profile.displayName;
+      user.picture = profile.photos?.[0]?.value;
+      await user.save();
+      return done(null, user);
+    }
+
+    // create new user
+    user = await userAuth.create({
+      name: profile.displayName,
+      email: email,
+      googleId: profile.id,
+      picture: profile.photos?.[0]?.value
+    });
+
+    return done(null, user);
+
+  } catch (error) {
+    return done(error, null);
+  }
+}
+
+));
+
+
+
+passport.serializeUser((user, done) => {
+    done(null, user.id); 
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await userAuth.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
+});
+
 
 
 
@@ -76,8 +138,7 @@ app.listen(3000,()=>{
 
 //home route
 app.get("/",wrapAsync(async(req,res)=>{
-    const allListings=await Listing.find({});
-    res.render("./listings/home.ejs",{allListings});
+     res.send("<h1>Home Page</h1>");
 }));
 
 // app.get("/check",async(req,res)=>{

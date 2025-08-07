@@ -5,12 +5,21 @@
 <body>
   <div class="form-container">
     <h1>REGISTER NOW</h1>
-    <form class="location-form " method="Post" action="/signup" >
-      <input type="text" name="place[name]" placeholder="Full Name" required>
-      <input type="text" name="place[email]" placeholder="Email" required>
-      <input type="text" name="place[username]" placeholder="Username" required >
-      <input type="text" name="place[password]" placeholder="Password" required>
-      <button type="submit">Submit</button>
-    </form>
+    
+   <form class="location-form " method="POST" action="/signup">
+     <input type="text" name="name" placeholder="Name" required>
+     <input type="email" name="email" placeholder="Email" required>
+     <input type="text" name="username" placeholder="Username" required> <!-- THIS -->
+     <input type="password" name="password" placeholder="Password" required>
+     <button type="submit">Submit</button>
+   </form>
+
+
+     <p style="white-space: nowrap;">
+           Hava an account? <a href="/signin" style="text-decoration: none;">Sign in</a>
+     </p>
+     <hr>
+     <p style="text-align: center;">-------------or-------------</p>
+     <div style="display: flex; justify-content: center;"><a href="/auth/google" style="color:black;"><i class="fa-brands fa-google" style="font-size: 1.8rem;"></i></a></div>
   </div>
 </body>
