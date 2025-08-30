@@ -63,7 +63,7 @@ router.delete("/:id",isLoggedIn,wrapAsync(async(req,res)=>{
 //detail route:=>
 router.get("/:id",isLoggedIn,wrapAsync(async(req,res)=>{
     let {id}=req.params;
-    const Data= await Listing.findById(id).populate("reviews");
+    const Data= await Listing.findById(id).populate("reviews").populate("user");
      if(!Data){
         req.flash("error","listing does not exist!");
         res.redirect("/listings"); 

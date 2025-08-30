@@ -12,8 +12,10 @@
       <li><strong>Price:</strong>&#8377; <%=Data.price.toLocaleString("en-In") %>/month</li>
       <li><strong>Location:</strong><%=Data.location %></li>
       <li><strong>State:</strong><%=Data.state %></li>
-    </ul>
+      <li><strong>Owner:-</strong><%=Data.user.username || Data.user.name%></li>
 
+    </ul>
+     
     <div class="buttons">
       <a href="/listings/<%=Data._id%>/edit" class="btn edit-btn">Edit</a>
       <form method="post" action="/listings/<%= Data._id%>?_method=DELETE">
