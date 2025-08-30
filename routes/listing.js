@@ -15,17 +15,18 @@ function isLoggedIn(req, res, next) {
 //route for showing all listings:=>
 router.get("/",isLoggedIn,wrapAsync(async(req,res)=>{
     const allListings=await Listing.find({});
-    res.render("./listings/listing.ejs",{ allListings });
+    res.render("./listings/listing.ejs",{ allListings });       
 }));
 
 
 //add route where we can add a new listing:=> 
 router.get("/new",isLoggedIn,(req,res)=>{
     res.render("listings/addListing.ejs");
-});
+});                                                            
 
 router.post("/",wrapAsync(async(req,res)=>{
     const newData = new Listing( req.body.place);
+    newData.user = req.user._id; 
     await newData.save();
     req.flash("success","New location added successfully!");
     res.redirect("/listings");

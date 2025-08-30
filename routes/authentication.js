@@ -5,6 +5,8 @@ const Registration= require("../models/authentication.js");
 const passport= require("passport");
 
 
+
+
 //signup route
 router.get("/signup",(req,res)=>{
     res.render("./userAuthentication/signup.ejs");
@@ -14,9 +16,15 @@ router.post("/signup",wrapAsync(async(req,res)=>{
    try{
     const{name,email,username,password}=req.body;
     const newUser = new Registration({name,email,username});
-    await Registration.register(newUser, password);
+    const registeredUser= await Registration.register(newUser, password);
+    req.login(registeredUser,(err)=>{
+        if(err){
+            next(err);
+        }
+        req.flash("success",`Welcome ${req.body.name}`);
+        res.redirect("/listings");
+    });
     req.flash("success","You Have Registered Successfully!");
-    res.redirect("/listings");
    }catch(e){
       req.flash("error",e.message);
         res.redirect("/signup");
@@ -27,7 +35,6 @@ router.post("/signup",wrapAsync(async(req,res)=>{
 
 
 // google authentication
-
 router.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] })
 );
@@ -52,6 +59,8 @@ router.post("/signin", passport.authenticate("local", { failureRedirect: '/signi
   req.flash("success","Sign-In Successfully!");
   res.redirect("/listings");
 }));
+
+
 
 
 //logout route

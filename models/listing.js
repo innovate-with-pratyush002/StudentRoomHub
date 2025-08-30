@@ -1,6 +1,7 @@
 const mongoose= require("mongoose");
 const Schema= mongoose.Schema;
 const Review =require("./review.js");
+const UserAuth =require("./authentication.js");
 
 const listingSchema = new Schema({
     title: {
@@ -17,7 +18,12 @@ const listingSchema = new Schema({
             type:Schema.Types.ObjectId,
             ref:"Review"
           }  
-        ]
+        ],
+        user:{
+          type:Schema.Types.ObjectId,
+          ref:"UserAuth",
+          required: true
+        }
 });
 
 listingSchema.post("findOneAndDelete",async(listing)=>{
