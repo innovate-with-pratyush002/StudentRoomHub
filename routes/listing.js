@@ -3,13 +3,7 @@ const Listing= require("../models/listing.js")
 const wrapAsync= require("../utils/wrapAsync.js");
 const ExpressError= require("../utils/ExpressError.js");
 const router= express.Router();
-
-
-// Middleware for auth check
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect('/signin');
-};
+const {isLoggedIn} = require("../middleware.js");
 
 
 //route for showing all listings:=>
