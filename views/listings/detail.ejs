@@ -16,12 +16,14 @@
 
     </ul>
      
-    <div class="buttons">
-      <a href="/listings/<%=Data._id%>/edit" class="btn edit-btn">Edit</a>
-      <form method="post" action="/listings/<%= Data._id%>?_method=DELETE">
-    <button  class="btn edit-btn">Delete Listing</button>
-   </form>
-    </div>
+    <% if(currentUser && currentUser._id.equals(Data.user._id)){ %>
+          <div class="buttons">
+             <a href="/listings/<%=Data._id%>/edit" class="btn edit-btn">Edit</a>
+                <form method="post" action="/listings/<%= Data._id%>?_method=DELETE">
+                   <button  class="btn edit-btn">Delete Listing</button>
+                </form>
+          </div>
+    <% } %>
 
     <hr>
 
