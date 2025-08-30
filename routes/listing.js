@@ -18,7 +18,7 @@ router.get("/new",isLoggedIn,(req,res)=>{
     res.render("listings/addListing.ejs");
 });                                                            
 
-router.post("/",isLoggedIn,isUser,wrapAsync(async(req,res)=>{
+router.post("/",isLoggedIn,wrapAsync(async(req,res)=>{
     const newData = new Listing( req.body.place);
     newData.user = req.user._id; 
     await newData.save();
