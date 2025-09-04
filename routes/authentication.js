@@ -3,33 +3,15 @@ const wrapAsync= require("../utils/wrapAsync.js");
 const router= express.Router();
 const Registration= require("../models/authentication.js");
 const passport= require("passport");
+const ListingControllers= require("../controller/authentication.js");
 
 
 
 
 //signup route
-router.get("/signup",(req,res)=>{
-    res.render("./userAuthentication/signup.ejs");
-});
+router.get("/signup",ListingControllers.signUpForm);
 
-router.post("/signup",wrapAsync(async(req,res)=>{
-   try{
-    const{name,email,username,password}=req.body;
-    const newUser = new Registration({name,email,username});
-    const registeredUser= await Registration.register(newUser, password);
-    req.login(registeredUser,(err)=>{
-        if(err){
-            next(err);
-        }
-        req.flash("success",`Welcome ${req.body.name}`);
-        res.redirect("/listings");
-    });
-    req.flash("success","You Have Registered Successfully!");
-   }catch(e){
-      req.flash("error",e.message);
-        res.redirect("/signup");
-   }
-}));
+router.post("/signup",wrapAsync(ListingControllers.Signup));
 
 
 
@@ -51,23 +33,14 @@ router.get('/auth/google/callback',
 
 
 //signin route
-router.get("/signin",(req,res)=>{
-    res.render("./userAuthentication/signin.ejs");
-});
+router.get("/signin",ListingControllers.signinForm);
 
-router.post("/signin", passport.authenticate("local", { failureRedirect: '/signin',failureFlash:true }),wrapAsync(async(req,res)=>{
-  req.flash("success","Sign-In Successfully!");
-  res.redirect("/listings");
-}));
+router.post("/signin", passport.authenticate("local", { failureRedirect: '/signin',failureFlash:true }),wrapAsync(ListingControllers.SignIn));
 
 
 
 
 //logout route
-router.get('/logout', (req, res) => {
-    req.logout(() => {
-        res.redirect('/signin');
-    });
-});
+router.get('/logout', ListingControllers.logout);
 
 module.exports=router;
