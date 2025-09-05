@@ -9,17 +9,20 @@ const listingSchema = new Schema({
         required: true,
     },
     description: String,
-    image: String,
-        price: Number,
-        location: String,
-        state: String,
-        reviews:[
+    image:{
+      url:String,
+      fileName:String
+    },
+    price: Number,
+    location: String,
+    state: String,
+    reviews:[
           {
             type:Schema.Types.ObjectId,
             ref:"Review"
           }  
         ],
-        user:{
+     user:{
           type:Schema.Types.ObjectId,
           ref:"UserAuth",
           required: true

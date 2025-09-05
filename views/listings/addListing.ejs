@@ -5,10 +5,10 @@
 <body>
   <div class="form-container">
     <h1>ADD NEW LOCATION</h1>
-    <form class="location-form " method="Post" action="/listings" >
+    <form class="location-form " method="Post" action="/listings" enctype="multipart/form-data">
       <input type="text" name="place[title]" placeholder="Title" required>
       <input type="text" name="place[description]" placeholder="Description" required>
-      <input type="text" name="place[image]" placeholder="Image" required >
+      <input type="file" name="place[image]" placeholder="Image" required >
       <input type="number" name="place[price]" placeholder="Price" required>
       <input type="text" name="place[location]" placeholder="Location" required>
       <input type="text" name="place[state]" placeholder="State" required>

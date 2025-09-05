@@ -5,6 +5,9 @@ const ExpressError= require("../utils/ExpressError.js");
 const router= express.Router();
 const {isLoggedIn, isUser} = require("../middleware.js");
 const ListingControllers= require("../controller/listing.js");
+const multer  = require('multer');
+const {storage}= require("../cloudConfig.js");
+const upload = multer({ storage });
 
 
 //route for showing all listings:=>
@@ -14,7 +17,7 @@ router.get("/",isLoggedIn,wrapAsync(ListingControllers.showAllListings));
 //add route where we can add a new listing:=> 
 router.get("/new",isLoggedIn,ListingControllers.showform);                                                            
 
-router.post("/",isLoggedIn,wrapAsync(ListingControllers.addListing));
+router.post("/",isLoggedIn,upload.single("place[image]"),wrapAsync(ListingControllers.addListing));
 
 
 //edit & update route:=>

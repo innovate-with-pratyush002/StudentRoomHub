@@ -12,8 +12,11 @@ module.exports.showform=(req,res)=>{
 }
 
 module.exports.addListing=async(req,res)=>{
+    let url=req.file.path;
+    let fileName= req.file.filename;
     const newData = new Listing( req.body.place);
-    newData.user = req.user._id; 
+    newData.user = req.user._id;
+    newData.image={url,fileName}; 
     await newData.save();
     req.flash("success","New location added successfully!");
     res.redirect("/listings");

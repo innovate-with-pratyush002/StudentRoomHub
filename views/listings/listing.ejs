@@ -12,7 +12,7 @@
   <% allListings.forEach((list, index) => { %>
       <div class="card">
       <h2 class="card-title"><%= list.title %></h2>
-      <img src="<%=list.image%>" alt="Card Image" class="card-img" />
+      <img src="<%=list.image.url%>" alt="Card Image" class="card-img" />
       <p class="card-desc">
         <strong>Price:</strong> ₹ 
         <%= (list.price && typeof list.price === 'number') 
