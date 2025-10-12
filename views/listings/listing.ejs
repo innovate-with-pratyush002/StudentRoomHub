@@ -1,30 +1,29 @@
 <% layout('layouts/boilerplate') -%>
 <link rel="stylesheet" href="/CSS/listings.css">
 
-
 <body>
-
-<h1 style="margin-left:5rem; margin-top: 1rem; font-size: 3rem;">Find and book <br> student rentals</h1>
- <p style="margin-left:5rem; margin-top: 0.5rem;">Search for affordable rooms and guest houses in other cities.</p>
-
- <!-- Cards -->
-<div class="card-container">
-  <% allListings.forEach((list, index) => { %>
-      <div class="card">
-      <h2 class="card-title"><%= list.title %></h2>
-      <img src="<%=list.image.url%>" alt="Card Image" class="card-img" />
-      <p class="card-desc">
-        <strong>Price:</strong> ₹ 
-        <%= (list.price && typeof list.price === 'number') 
-        ? list.price.toLocaleString("en-IN") 
-        : "N/A" %>/month
-      </p>
-      <p class="card-desc"><strong>Location:</strong><%=list.location %></p>
-      <p class="card-desc"><strong>State:</strong><%=list.state %></p>
-      <a href="/listings/<%=list._id%>"><button class="card-btn">Details</button></a>
+    <div class="header-container">
+        <h1 class="main-title">Find Your Perfect <br>Student Rental 🏡</h1>
+        <p class="subtitle">Search for affordable rooms and guest houses in top cities.</p>
     </div>
-  <% }) %>
-</div>
 
- 
+    <div class="card-grid">
+        <% allListings.forEach((list) => { %>
+        <a href="/listings/<%=list._id%>" class="card-link">
+            <div class="rental-card">
+                <div class="card-image-wrapper">
+                    <img src="<%=list.image.url%>" alt="<%= list.title %>" class="card-image" />
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title"><%= list.title %></h2>
+                    <p class="card-location"><i class="fas fa-map-marker-alt"></i> <%=list.location %>, <%=list.state %></p>
+                    <div class="card-price-container">
+                        <span class="card-price">₹ <%= (list.price && typeof list.price === 'number') ? list.price.toLocaleString("en-IN") : "N/A" %></span><span class="price-unit">/month</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <% }) %>
+    </div>
 </body>
