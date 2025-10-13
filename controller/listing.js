@@ -35,7 +35,13 @@ module.exports.findForUpdate=async(req,res)=>{
 
 module.exports.updateListing=async(req,res)=>{
     let{id}=req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.place});
+   let updatedListing= await Listing.findByIdAndUpdate(id,{...req.body.place});
+   if(typeof req.file !=="undefined"){
+     let url=req.file.path;
+     let fileName= req.file.filename;
+     updatedListing.image={url,fileName}; 
+     await updatedListing.save();
+   }
         req.flash("success","Location Detail Edited!");
     res.redirect(`/listings/${id}`);
 }

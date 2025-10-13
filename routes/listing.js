@@ -22,7 +22,7 @@ router.post("/",isLoggedIn,upload.single("place[image]"),wrapAsync(ListingContro
 
 //edit & update route:=>
 router.get("/:id/edit",isLoggedIn,isUser,wrapAsync(ListingControllers.findForUpdate));
-router.put("/:id",isLoggedIn,isUser,wrapAsync(ListingControllers.updateListing));
+router.put("/:id",isLoggedIn,isUser,upload.single("place[image]"),wrapAsync(ListingControllers.updateListing));
 
 
 //delete route:=>
