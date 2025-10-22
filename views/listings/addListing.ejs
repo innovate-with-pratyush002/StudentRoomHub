@@ -1,20 +1,35 @@
 <% layout('layouts/boilerplate') -%>
 <link rel="stylesheet" href="/CSS/addlisting.css">
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <body>
   <div class="form-container">
     <h1>ADD NEW LOCATION</h1>
-    <form class="location-form " method="Post" action="/listings" enctype="multipart/form-data">
+
+    <form class="location-form" method="POST" action="/listings" enctype="multipart/form-data">
       <input type="text" name="place[title]" placeholder="Title" required>
       <input type="text" name="place[description]" placeholder="Description" required>
-      <input type="file" name="place[image]" placeholder="Image" required >
+      <input type="file" name="place[image]" placeholder="Image" required>
       <input type="number" name="place[price]" placeholder="Price" required>
-      <input type="text" name="place[location]" placeholder="Location" required>
-      <input type="text" name="place[state]" placeholder="State" required>
+
+      <!-- Location Fields -->
+      <input type="text" name="place[location]" id="location" placeholder="Address" required>
+      <input type="text" name="place[state]" id="state" placeholder="State" required>
+
+      <!-- Hidden Coordinates -->
+      <input type="hidden" name="place[lat]" id="lat">
+      <input type="hidden" name="place[lon]" id="lon">
+
+      <button type="button" id="locateBtn">Use My Current Location</button>
+      <div id="map" style="height: 400px; margin-top: 10px;"></div>
+
       <button type="submit">Submit</button>
     </form>
   </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="/js/addlistingMap.js"></script>
 </body>
 
 
