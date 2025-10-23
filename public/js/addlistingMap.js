@@ -7,8 +7,60 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let marker;
 
-// Handle map click
-map.on('click', async function (e) {
+// Helper: Update form fields
+function setCoordinates(lat, lon) {
+  document.getElementById('lat').value = lat;
+  document.getElementById('lon').value = lon;
+}
+
+// Reverse geocode: coordinates → address
+async function updateAddress(lat, lon) {
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+    const data = await res.json();
+
+    if (data.display_name) {
+      document.getElementById('location').value = data.display_name;
+      document.getElementById('state').value = data.address?.state || '';
+    }
+  } catch (err) {
+    console.error("Failed to fetch address:", err);
+  }
+}
+
+// Forward geocode: address → coordinates
+async function updateMapFromAddress() {
+  const location = document.getElementById('location').value;
+  if (!location) return;
+
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`);
+    const data = await res.json();
+
+    if (data.length > 0) {
+      const lat = parseFloat(data[0].lat);
+      const lon = parseFloat(data[0].lon);
+
+      if (marker) map.removeLayer(marker);
+      marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+      map.setView([lat, lon], 15);
+
+      setCoordinates(lat, lon);
+
+      // Update on drag
+      marker.on('dragend', async (e) => {
+        const pos = e.target.getLatLng();
+        setCoordinates(pos.lat, pos.lng);
+        await updateAddress(pos.lat, pos.lng);
+      });
+    }
+  } catch (err) {
+    console.error("Failed to fetch coordinates:", err);
+  }
+}
+
+// Map click → place draggable marker
+map.on('click', async function(e) {
   const { lat, lng } = e.latlng;
 
   if (marker) map.removeLayer(marker);
@@ -17,7 +69,6 @@ map.on('click', async function (e) {
   setCoordinates(lat, lng);
   await updateAddress(lat, lng);
 
-  // Update when dragged
   marker.on('dragend', async (e) => {
     const pos = e.target.getLatLng();
     setCoordinates(pos.lat, pos.lng);
@@ -25,7 +76,7 @@ map.on('click', async function (e) {
   });
 });
 
-// Handle "Use My Current Location"
+// Current location button
 document.getElementById('locateBtn').addEventListener('click', () => {
   if (!navigator.geolocation) return alert("Geolocation not supported by your browser.");
 
@@ -40,7 +91,6 @@ document.getElementById('locateBtn').addEventListener('click', () => {
     setCoordinates(lat, lon);
     await updateAddress(lat, lon);
 
-    // Update when dragged
     marker.on('dragend', async (e) => {
       const pos = e.target.getLatLng();
       setCoordinates(pos.lat, pos.lng);
@@ -51,23 +101,6 @@ document.getElementById('locateBtn').addEventListener('click', () => {
   });
 });
 
-// Helper: Update form fields
-function setCoordinates(lat, lon) {
-  document.getElementById('lat').value = lat;
-  document.getElementById('lon').value = lon;
-}
+// Update map when user types location manually
+document.getElementById('location').addEventListener('change', updateMapFromAddress);
 
-// Helper: Reverse geocode
-async function updateAddress(lat, lon) {
-  try {
-    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-    const data = await res.json();
-
-    if (data.display_name) {
-      document.getElementById('location').value = data.display_name;
-      document.getElementById('state').value = data.address?.state || '';
-    }
-  } catch (err) {
-    console.error("Failed to fetch address:", err);
-  }
-}

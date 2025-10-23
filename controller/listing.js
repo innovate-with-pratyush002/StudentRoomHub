@@ -12,11 +12,23 @@ module.exports.showform=(req,res)=>{
 }
 
 module.exports.addListing=async(req,res)=>{
+    const lat = parseFloat(req.body.place.lat);
+    const lon = parseFloat(req.body.place.lon);
     let url=req.file.path;
     let fileName= req.file.filename;
     const newData = new Listing( req.body.place);
     newData.user = req.user._id;
     newData.image={url,fileName}; 
+    if (isNaN(lat) || isNaN(lon)) {
+    req.flash("error", "Please select a location on the map.");
+    return res.redirect("/listings/new");
+    }
+    else{
+       newData.mapCoordinates={
+         type: "Point",
+         coordinates: [lon,lat] 
+        }
+    }
     await newData.save();
     req.flash("success","New location added successfully!");
     res.redirect("/listings");
