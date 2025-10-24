@@ -1,77 +1,102 @@
-/* Container */
+/* Container holding form and map side by side */
+.Container {
+  display: flex;
+  flex-wrap: wrap; /* So it looks okay on smaller screens */
+  gap: 20px;
+  padding: 20px 150px 20px 150px;
+  justify-content: space-between;
+}
+
+/* Form styling */
 .form-container {
-  max-width: 600px;
-  margin: auto;
-  margin-top:2rem;
-  margin-bottom: 2rem;
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  flex: 1 1 400px; /* Grow/shrink, minimum 400px */
+  background-color: #f9f9f9;
+  padding: 100px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* Heading */
 .form-container h1 {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 2rem;
-  color: #1a1a1a;
-  text-transform: uppercase;
+  margin-bottom: 20px;
 }
 
-/* Form */
-.edit-form {
+.form-container label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="file"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Map container styling */
+.ShowMap {
+  flex: 1 1 400px; /* Same as form */
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 }
 
-.edit-form label {
-  font-weight: 600;
-  margin-top: 15px;
-  margin-bottom: 5px;
-}
-
-.edit-form input {
-  padding: 10px 15px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.edit-form input:focus {
-  border-color: rgb(6, 149, 162);
-}
-
-/* Submit button */
-.edit-form button {
-  margin-top: 25px;
-  padding: 12px 20px;
-  font-size: 1rem;
-  background-color: rgb(6, 149, 162);
+#currentLocationBtn {
+  padding: 10px;
+  background-color: rgb(9, 169, 183);;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
-.edit-form button:hover {
-  background-color: rgb(4, 122, 133);
+#currentLocationBtn:hover {
+  background-color: rgb(5, 119, 130);
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .form-container {
-    padding: 20px;
-  }
+#map {
+  margin-top: 10px;
+  height: 400px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
 
-  .form-container h1 {
-    font-size: 1.5rem;
-  }
+/* Update button styling at the bottom */
+button[type="submit"] {
+  display: block;
+  width: 81%;
+  padding: 15px;
+  margin: 20px auto 0 auto;
+  font-size: 16px;
+  background-color:rgb(6, 149, 162);;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-  .edit-form input, .edit-form button {
-    font-size: 0.95rem;
+button[type="submit"]:hover {
+  background-color:rgb(5, 112, 122);;
+}
+
+/* Responsive for small screens */
+@media screen and (max-width: 900px) {
+  .Container {
+    flex-direction: column;
   }
+}
+
+@media (max-width: 860px){
+ .Container {
+  padding: 20px;
+} 
+
+.form-container {
+  padding: 15px;
+}
+
 }

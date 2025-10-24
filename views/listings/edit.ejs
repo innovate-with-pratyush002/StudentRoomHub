@@ -1,7 +1,10 @@
 <% layout('layouts/boilerplate') -%>
 <link rel="stylesheet" href="/CSS/edit.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
 <body>
-  <div class="form-container">
+<div class="Container">
+    <div class="form-container">
     <h1>Edit Details</h1>
     <form method="POST" action="/listings/<%=Data._id%>?_method=PUT" class="edit-form" enctype="multipart/form-data">
       <label>Title</label>
@@ -10,26 +13,54 @@
       <label>Description</label>
       <input type="text" name="place[description]" value="<%=Data.description%>" required />
 
-      <label>Image URL</label>
-      <input type="file" name="place[image]" value="<%=Data.image.url%>" />
+      <label>Image</label>
+      <input type="file" name="place[image]" />
 
       <label>Price (₹)</label>
       <input type="number" name="place[price]" value="<%=Data.price%>" required />
 
       <label>Location</label>
-      <input type="text" name="place[location]" value="<%=Data.location%>" required />
+      <input type="text" id="locationField" name="place[location]" value="<%=Data.location%>" required />
 
       <label>State</label>
-      <input type="text" name="place[state]" value="<%=Data.state%>" required />
+      <input type="text" id="stateField" name="place[state]" value="<%=Data.state%>" required />
 
-      <button type="submit">Update Listing</button>
+     <input type="hidden" id="latField" name="place[lat]" value="<%= Data.mapCoordinates ? Data.mapCoordinates.coordinates[1] : '' %>">
+     <input type="hidden" id="lonField" name="place[lon]" value="<%= Data.mapCoordinates ? Data.mapCoordinates.coordinates[0] : '' %>">
+
+
+
+
+  <div class="ShowMap">
+      <button type="button" id="currentLocationBtn">Use My Current Location</button>
+
+      <div id="map" style="height: 400px; margin-top: 10px;"></div>
+
+  </div>
+</div>
+
+
+  <button type="submit">Update Listing</button>
+
     </form>
   </div>
+
+
+
+
+<!-- Inject listing data -->
+<script>
+  const listingData = <%- JSON.stringify({
+    id: Data._id,
+    lat: Data.mapCoordinates ? Data.mapCoordinates.coordinates[1] : null,
+    lon: Data.mapCoordinates ? Data.mapCoordinates.coordinates[0] : null
+  }) %>;
+</script>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/JS/editMap.js"></script>
 </body>
-
-
-
-
 
 
 

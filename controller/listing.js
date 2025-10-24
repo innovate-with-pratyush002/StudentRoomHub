@@ -36,7 +36,7 @@ module.exports.addListing=async(req,res)=>{
 
 //edit & update route:=>
 module.exports.findForUpdate=async(req,res)=>{
-     let {id}=req.params;
+    let {id}=req.params;
     const Data= await Listing.findById(id);
      if(!Data){
         req.flash("error","listing does not exist!");
@@ -46,14 +46,35 @@ module.exports.findForUpdate=async(req,res)=>{
 }
 
 module.exports.updateListing=async(req,res)=>{
+     const lat = parseFloat(req.body.place.lat);
+     const lon = parseFloat(req.body.place.lon);
+     console.log(req.body);
+
+     console.log("LAT:", req.body.place.lat);
+console.log("LON:", req.body.place.lon);
+
     let{id}=req.params;
-   let updatedListing= await Listing.findByIdAndUpdate(id,{...req.body.place});
+   let updatedListing= await Listing.findByIdAndUpdate(id,{...req.body.place},{ new: true,runValidators:true });
+
+   if (!isNaN(lat) && !isNaN(lon)) {
+   updatedListing.mapCoordinates = {
+      type: "Point",
+      coordinates: [lon, lat],
+    };
+        await updatedListing.save();
+
+   }
+
    if(typeof req.file !=="undefined"){
      let url=req.file.path;
      let fileName= req.file.filename;
      updatedListing.image={url,fileName}; 
      await updatedListing.save();
    }
+
+        console.log("Saved coordinates:", updatedListing.mapCoordinates);
+
+        
         req.flash("success","Location Detail Edited!");
     res.redirect(`/listings/${id}`);
 }
