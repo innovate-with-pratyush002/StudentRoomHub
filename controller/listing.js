@@ -67,9 +67,10 @@ module.exports.deleteListing=async(req,res)=>{
 }
 
 //detail route:=>
-module,exports.listingDetails=async(req,res)=>{
+module.exports.listingDetails=async(req,res)=>{
     let {id}=req.params;
     const Data= await Listing.findById(id).populate({path:"reviews",populate: {path:"owner"}}).populate("user");
+    
      if(!Data){
         req.flash("error","listing does not exist!");
         res.redirect("/listings"); 
