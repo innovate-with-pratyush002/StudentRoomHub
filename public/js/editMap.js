@@ -2,6 +2,7 @@
 const locationInput = document.getElementById('locationField');
 const stateInput = document.getElementById('stateField');
 const currentBtn = document.getElementById('currentLocationBtn');
+const form = document.querySelector('.edit-form');
 
 // Initialize map
 let map = L.map('map').setView([20.5937, 78.9629], 5); // default India
@@ -20,8 +21,8 @@ function setMarker(lat, lon) {
     marker = L.marker([lat, lon], { draggable: true }).addTo(map);
   }
 
-  // Update location/state on drag
-  marker.off('dragend'); // remove previous drag listeners
+  // Update hidden fields on drag
+  marker.off('dragend');
   marker.on('dragend', async () => {
     const pos = marker.getLatLng();
     await updateFieldsFromCoords(pos.lat, pos.lng);
@@ -30,18 +31,18 @@ function setMarker(lat, lon) {
   map.setView([lat, lon], 13);
 }
 
-// Reverse geocode and update input fields
+// Reverse geocode and update input + hidden fields
 async function updateFieldsFromCoords(lat, lon) {
   try {
     const revRes = await axios.get('https://nominatim.openstreetmap.org/reverse', {
       params: { lat, lon, format: 'json' }
     });
+
     if (revRes.data && revRes.data.address) {
       locationInput.value = revRes.data.address.city || revRes.data.address.town || revRes.data.address.village || '';
       stateInput.value = revRes.data.address.state || '';
     }
 
-    // Update hidden lat/lon fields
     document.getElementById('latField').value = lat;
     document.getElementById('lonField').value = lon;
 
@@ -50,7 +51,7 @@ async function updateFieldsFromCoords(lat, lon) {
   }
 }
 
-// Geocode address to lat/lon
+// Geocode address to lat/lon (triggered on input change)
 async function updateMapFromAddress() {
   const address = `${locationInput.value}, ${stateInput.value}`;
   if (!address.trim()) return;
@@ -59,10 +60,12 @@ async function updateMapFromAddress() {
     const res = await axios.get('https://nominatim.openstreetmap.org/search', {
       params: { q: address, format: 'json', limit: 1 }
     });
+
     if (res.data && res.data.length > 0) {
-      const lat = res.data[0].lat;
-      const lon = res.data[0].lon;
+      const lat = parseFloat(res.data[0].lat);
+      const lon = parseFloat(res.data[0].lon);
       setMarker(lat, lon);
+      await updateFieldsFromCoords(lat, lon);
     }
   } catch (err) {
     console.error(err);
@@ -77,11 +80,11 @@ if (listingData.lat && listingData.lon) {
   updateMapFromAddress();
 }
 
-// Event listeners for input change
+// Event listeners for input change (manual typing)
 locationInput.addEventListener('change', updateMapFromAddress);
 stateInput.addEventListener('change', updateMapFromAddress);
 
-// Use current location
+// Use current location button
 currentBtn.addEventListener('click', () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -98,9 +101,18 @@ currentBtn.addEventListener('click', () => {
   }
 });
 
-// --- NEW: Set marker on map click ---
+// Map click to set marker
 map.on('click', async (e) => {
   const { lat, lng } = e.latlng;
   setMarker(lat, lng);
   await updateFieldsFromCoords(lat, lng);
+});
+
+// Ensure hidden fields updated before form submit
+form.addEventListener('submit', () => {
+  if (marker) {
+    const pos = marker.getLatLng();
+    document.getElementById('latField').value = pos.lat;
+    document.getElementById('lonField').value = pos.lng;
+  }
 });

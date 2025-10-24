@@ -48,12 +48,8 @@ module.exports.findForUpdate=async(req,res)=>{
 module.exports.updateListing=async(req,res)=>{
      const lat = parseFloat(req.body.place.lat);
      const lon = parseFloat(req.body.place.lon);
-     console.log(req.body);
 
-     console.log("LAT:", req.body.place.lat);
-console.log("LON:", req.body.place.lon);
-
-    let{id}=req.params;
+   let{id}=req.params;
    let updatedListing= await Listing.findByIdAndUpdate(id,{...req.body.place},{ new: true,runValidators:true });
 
    if (!isNaN(lat) && !isNaN(lon)) {
@@ -71,9 +67,6 @@ console.log("LON:", req.body.place.lon);
      updatedListing.image={url,fileName}; 
      await updatedListing.save();
    }
-
-        console.log("Saved coordinates:", updatedListing.mapCoordinates);
-
         
         req.flash("success","Location Detail Edited!");
     res.redirect(`/listings/${id}`);
