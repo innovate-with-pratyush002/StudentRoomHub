@@ -28,10 +28,11 @@
 
 .form-container input[type="text"],
 .form-container input[type="number"],
-.form-container input[type="file"] {
+.form-container input[type="file"],
+.form-container select {
   width: 100%;
   padding: 8px 10px;
-  margin-top: 5px;
+  margin-bottom: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;

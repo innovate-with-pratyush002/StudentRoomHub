@@ -16,6 +16,29 @@
       <input type="text" name="place[location]" id="location" placeholder="Address" required>
       <input type="text" name="place[state]" id="state" placeholder="State" required>
 
+      <!-- Status -->
+      <select name="place[roomType]" required>
+        <option value="">Select Room Type</option>
+        <option value="Single">Single</option>
+        <option value="Double">Double</option>
+        <option value="Shared">Shared</option>
+      </select>
+
+      <select name="place[preferredTenant]" required>
+        <option value="">Select Tenant</option>
+        <option value="Boys">Boys</option>
+        <option value="Girls">Girls</option>
+        <option value="Any">Any</option>
+      </select>
+
+      <select name="place[availabilityStatus]">
+        <option value="Available">Available</option>
+        <option value="Booked">Booked</option>
+      </select>
+
+      <!-- Contact -->
+      <input type="text" name="place[contact]" placeholder="Phone Number" required>
+
       <!-- Hidden Coordinates -->
       <input type="hidden" name="place[lat]" id="lat">
       <input type="hidden" name="place[lon]" id="lon">

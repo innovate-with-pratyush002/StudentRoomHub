@@ -37,6 +37,24 @@
         <p class="card-title">Owner:</p>
         <p class="card-value"><%= Data.user.username || Data.user.name %></p>
       </div>
+
+      <div class="info-card">
+        <p class="card-title">Room Type:</p>
+        <p class="card-value price-value"><%= Data.roomType %></p>
+      </div>
+      <div class="info-card">
+        <p class="card-title">Preferred Tenant:</p>
+        <p class="card-value price-value"><%= Data.preferredTenant %></p>
+      </div>
+      <div class="info-card">
+        <p class="card-title">Availability Status:</p>
+        <p class="card-value price-value"><%= Data.availabilityStatus %></p>
+      </div>
+      <div class="info-card">
+        <p class="card-title">Contact:</p>
+        <p class="card-value price-value"><%= Data.contact.phone %></p>
+      </div>  
+      
     </div>
 
     <% if (currentUser && currentUser._id.equals(Data.user._id)) { %>
@@ -47,6 +65,7 @@
         </form>
       </div>
     <% } %>
+          
   </section>
 
   <hr class="section-divider">

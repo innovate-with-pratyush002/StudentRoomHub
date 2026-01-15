@@ -1,56 +1,186 @@
-const mongoose= require("mongoose");
-const Schema= mongoose.Schema;
-const Review =require("./review.js");
-const UserAuth =require("./authentication.js");
+// const mongoose= require("mongoose");
+// const Schema= mongoose.Schema;
+// const Review =require("./review.js");
+// const UserAuth =require("./authentication.js");
 
-const listingSchema = new Schema({
+// const listingSchema = new Schema({
+//     title: {
+//         type: String,
+//         required: true,
+//     },
+//     description: String,
+//     image:{
+//       url:String,
+//       fileName:String
+//     },
+//     price: Number,
+//     location: String,
+//     state: String,
+//     reviews:[
+//           {
+//             type:Schema.Types.ObjectId,
+//             ref:"Review"
+//           }  
+//         ],
+//      user:{
+//           type:Schema.Types.ObjectId,
+//           ref:"UserAuth",
+//           required: true
+//         },
+//      mapCoordinates: {
+//         type: {
+//             type: String, // Don't do `{ location: { type: String } }`
+//             enum: ['Point'], // 'location.type' must be 'Point'
+//             required: true
+//         },
+//         coordinates: {
+//             type: [Number],
+//             required: true
+//         }
+//      }
+
+// });
+
+// listingSchema.post("findOneAndDelete",async(listing)=>{
+//   if(listing){
+//     await Review.deleteMany({_id: {$in: listing.reviews}});
+//   }
+// });
+// const Listing=mongoose.model("Listing",listingSchema);
+// module.exports =Listing;
+
+
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Review = require("./review.js");
+const UserAuth = require("./authentication.js");
+
+const listingSchema = new Schema(
+  {
     title: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
+      trim: true
     },
-    description: String,
-    image:{
-      url:String,
-      fileName:String
-    },
-    price: Number,
-    location: String,
-    state: String,
-    reviews:[
-          {
-            type:Schema.Types.ObjectId,
-            ref:"Review"
-          }  
-        ],
-     user:{
-          type:Schema.Types.ObjectId,
-          ref:"UserAuth",
-          required: true
-        },
-     mapCoordinates: {
-        type: {
-            type: String, // Don't do `{ location: { type: String } }`
-            enum: ['Point'], // 'location.type' must be 'Point'
-            required: true
-        },
-        coordinates: {
-            type: [Number],
-            required: true
-        }
-     }
 
+    description: {
+      type: String,
+      trim: true
+    },
+
+    image: {
+      url: String,
+      fileName: String
+    },
+
+    price: {
+      type: Number,
+      required: true,
+      min: 0
+    },
+
+    location: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    state: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    roomType: {
+      type: String,
+      enum: ["Single", "Double", "Shared"],
+      required: true
+    },
+
+    preferredTenant: {
+      type: String,
+      enum: ["Boys", "Girls", "Any"],
+      required: true
+    },
+
+    availabilityStatus: {
+      type: String,
+      enum: ["Available", "Booked"],
+      default: "Available"
+    },
+
+    contact: {
+      phone: {
+        type: String,
+        trim: true,
+        required: true
+      }
+    },
+
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "UserAuth",
+      required: true
+    },
+
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review"
+      }
+    ],
+
+    mapCoordinates: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+        required: true
+      }
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+
+               //   INDEXES 
+
+// Geo search (map based room finding)
+listingSchema.index({ mapCoordinates: "2dsphere" });
+
+// City + state filtering
+listingSchema.index({ location: 1, state: 1 });
+
+// Budget filtering
+listingSchema.index({ price: 1 });
+
+// Text search (city / area / keywords)
+listingSchema.index({
+  title: "text",
+  location: "text",
+  description: "text"
 });
 
-listingSchema.post("findOneAndDelete",async(listing)=>{
-  if(listing){
-    await Review.deleteMany({_id: {$in: listing.reviews}});
+
+                 //  MIDDLEWARE 
+
+// Delete related reviews when a listing is deleted
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing && listing.reviews.length > 0) {
+    await Review.deleteMany({ _id: { $in: listing.reviews } });
   }
 });
-const Listing=mongoose.model("Listing",listingSchema);
-module.exports =Listing;
 
 
+                 //  MODEL
 
+const Listing = mongoose.model("Listing", listingSchema);
+module.exports = Listing;
 
 
 

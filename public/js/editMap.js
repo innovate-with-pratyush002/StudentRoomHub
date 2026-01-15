@@ -1,118 +1,130 @@
-// Elements
+                  // Elements
 const locationInput = document.getElementById('locationField');
 const stateInput = document.getElementById('stateField');
 const currentBtn = document.getElementById('currentLocationBtn');
 const form = document.querySelector('.edit-form');
 
-// Initialize map
-let map = L.map('map').setView([20.5937, 78.9629], 5); // default India
+                   // Map
+let map = L.map('map').setView([20.5937, 78.9629], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; OpenStreetMap contributors'
+  maxZoom: 19
 }).addTo(map);
 
 let marker;
+let isUserTyping = false;
+let debounceTimer = null;
 
-// Helper: set marker at lat/lon and attach drag event
+                 /*  MARKER */
 function setMarker(lat, lon) {
-  if (marker) {
-    marker.setLatLng([lat, lon]);
-  } else {
+  if (!marker) {
     marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+    marker.on('dragend', async () => {
+      const p = marker.getLatLng();
+      await reverseGeocode(p.lat, p.lng, true);
+    });
+  } else {
+    marker.setLatLng([lat, lon]);
   }
-
-  // Update hidden fields on drag
-  marker.off('dragend');
-  marker.on('dragend', async () => {
-    const pos = marker.getLatLng();
-    await updateFieldsFromCoords(pos.lat, pos.lng);
-  });
-
-  map.setView([lat, lon], 13);
+  map.setView([lat, lon], 15);
 }
 
-// Reverse geocode and update input + hidden fields
-async function updateFieldsFromCoords(lat, lon) {
+                /*  REVERSE */
+async function reverseGeocode(lat, lon, allowOverwrite) {
   try {
-    const revRes = await axios.get('https://nominatim.openstreetmap.org/reverse', {
-      params: { lat, lon, format: 'json' }
-    });
+    const res = await axios.get(
+      'https://nominatim.openstreetmap.org/reverse',
+      {
+        params: { lat, lon, format: 'json', addressdetails: 1 }
+      }
+    );
 
-    if (revRes.data && revRes.data.address) {
-      locationInput.value = revRes.data.address.city || revRes.data.address.town || revRes.data.address.village || '';
-      stateInput.value = revRes.data.address.state || '';
+    if (res.data?.address && allowOverwrite) {
+      const a = res.data.address;
+
+      locationInput.value =
+        a.suburb ||
+        a.neighbourhood ||
+        a.residential ||
+        a.road ||
+        a.city ||
+        a.town ||
+        a.village ||
+        '';
+
+      stateInput.value = a.state || '';
     }
 
     document.getElementById('latField').value = lat;
     document.getElementById('lonField').value = lon;
 
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
   }
 }
 
-// Geocode address to lat/lon (triggered on input change)
-async function updateMapFromAddress() {
-  const address = `${locationInput.value}, ${stateInput.value}`;
-  if (!address.trim()) return;
+          /*  FORWARD */
+async function forwardGeocode() {
+  if (!isUserTyping) return;
+
+  const q = `${locationInput.value}, ${stateInput.value}`;
+  if (q.trim().length < 4) return;
 
   try {
-    const res = await axios.get('https://nominatim.openstreetmap.org/search', {
-      params: { q: address, format: 'json', limit: 1 }
-    });
+    const res = await axios.get(
+      'https://nominatim.openstreetmap.org/search',
+      {
+        params: { q, format: 'json', limit: 1 }
+      }
+    );
 
-    if (res.data && res.data.length > 0) {
-      const lat = parseFloat(res.data[0].lat);
-      const lon = parseFloat(res.data[0].lon);
-      setMarker(lat, lon);
-      await updateFieldsFromCoords(lat, lon);
+    if (res.data?.length) {
+      setMarker(+res.data[0].lat, +res.data[0].lon);
     }
-  } catch (err) {
-    console.error(err);
+
+  } catch (e) {
+    console.error(e);
   }
 }
 
-// Initialize map with DB location
+           /* INPUT EVENTS*/
+function handleTyping() {
+  isUserTyping = true;
+  clearTimeout(debounceTimer);
+
+  debounceTimer = setTimeout(() => {
+    forwardGeocode();
+    isUserTyping = false;
+  }, 700);
+}
+
+locationInput.addEventListener('input', handleTyping);
+stateInput.addEventListener('input', handleTyping);
+
+              /*  MAP CLICK */
+map.on('click', async e => {
+  setMarker(e.latlng.lat, e.latlng.lng);
+  await reverseGeocode(e.latlng.lat, e.latlng.lng, true);
+});
+
+           /* CURRENT LOCATION  */
+currentBtn.addEventListener('click', () => {
+  navigator.geolocation.getCurrentPosition(async pos => {
+    setMarker(pos.coords.latitude, pos.coords.longitude);
+    await reverseGeocode(pos.coords.latitude, pos.coords.longitude, true);
+  });
+});
+
+         /* INITIAL LOAD */
 if (listingData.lat && listingData.lon) {
   setMarker(listingData.lat, listingData.lon);
-  updateFieldsFromCoords(listingData.lat, listingData.lon);
-} else if (locationInput.value && stateInput.value) {
-  updateMapFromAddress();
+  reverseGeocode(listingData.lat, listingData.lon, true);
 }
 
-// Event listeners for input change (manual typing)
-locationInput.addEventListener('change', updateMapFromAddress);
-stateInput.addEventListener('change', updateMapFromAddress);
-
-// Use current location button
-currentBtn.addEventListener('click', () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      setMarker(lat, lon);
-      await updateFieldsFromCoords(lat, lon);
-    }, (err) => {
-      alert('Could not get your location');
-      console.error(err);
-    });
-  } else {
-    alert('Geolocation not supported by your browser');
-  }
-});
-
-// Map click to set marker
-map.on('click', async (e) => {
-  const { lat, lng } = e.latlng;
-  setMarker(lat, lng);
-  await updateFieldsFromCoords(lat, lng);
-});
-
-// Ensure hidden fields updated before form submit
+           /*  SUBMIT */
 form.addEventListener('submit', () => {
   if (marker) {
-    const pos = marker.getLatLng();
-    document.getElementById('latField').value = pos.lat;
-    document.getElementById('lonField').value = pos.lng;
+    const p = marker.getLatLng();
+    latField.value = p.lat;
+    lonField.value = p.lng;
   }
 });

@@ -30,6 +30,16 @@
   transition: border 0.2s ease;
 }
 
+.location-form select {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
 .location-form input:focus {
   border-color: rgb(6, 149, 162);
 }
