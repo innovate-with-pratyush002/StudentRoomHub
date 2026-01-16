@@ -56,10 +56,13 @@
 
 <script>
   const closeBtn = document.querySelector('.closeFlash');
-  closeBtn.addEventListener('click', () => {
-    const flash = document.querySelector('.successFlash');
-    flash.remove();
-  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      const flash = document.querySelector('.successFlash');
+      if (flash) flash.remove();
+    });
+  }
 </script>
 
 

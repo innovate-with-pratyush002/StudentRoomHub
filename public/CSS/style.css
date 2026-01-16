@@ -1,15 +1,43 @@
-
-.navbar{
-    height: 4.5rem;
-    background-color: white !important;
-    color: black;
-    font-weight: 500;
-   
+.search-bar{
+  width: 30%;
+  background-color: white;
+  border-radius: 13px;
+  border: 1px solid rgb(6, 149, 162);
 }
+
+.search-bar:hover{
+  border: 2px solid rgb(3, 144, 156);
+}
+
+.search-bar form{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-inp{
+  width: 88%;
+  height: 100%;
+  margin-left: 20px;
+  border: none;
+}
+
+input:focus{
+  outline: none; 
+  box-shadow: none; 
+}
+
+.search-btn{
+  border:none;
+  background-color:white;
+  border-radius: 10px;
+}
+
+.fa-magnifying-glass{
+  font-size: 30px;
+  color: rgb(113, 109, 109);
+}
+
 .fa-star{
-  color: rgb(6, 149, 162);
-}
-
-.nav-link{
-    color: black !important;
+  color: rgb(3, 144, 156);
 }

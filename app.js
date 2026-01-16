@@ -11,6 +11,7 @@ const ExpressError= require("./utils/ExpressError.js");
 const listingsRoute= require("./routes/listing.js");
 const reviewRoute= require("./routes/review.js");
 const authenticationRoute= require("./routes/authentication.js");
+const filterAndSearchRoute= require("./routes/filterAndSearch.js");
 const session= require("express-session");
 const flash= require("connect-flash");
 const passport=require("passport");
@@ -162,6 +163,7 @@ app.use((req,res,next)=>{
 app.use("/listings",listingsRoute);
 app.use("/listings/:id/reviews",reviewRoute);
 app.use("/",authenticationRoute);
+app.use("/search",filterAndSearchRoute);
 
 
 // app.all("*",(req,res,next)=>{
