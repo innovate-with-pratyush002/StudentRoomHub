@@ -41,3 +41,21 @@ input:focus{
 .fa-star{
   color: rgb(3, 144, 156);
 }
+
+.nav-link{
+  color: black;
+}
+
+.pbtn-div{
+  width: 2.5rem;
+  height: 2.6rem;
+  margin-right: 1rem;
+  background-color: white;
+  border: none;
+  border-radius: 100%; 
+}
+
+.fa-circle-user{
+  font-size:2.5rem;
+  color: rgb(6, 149, 162);
+}

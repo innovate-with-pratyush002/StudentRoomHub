@@ -12,6 +12,7 @@ const listingsRoute= require("./routes/listing.js");
 const reviewRoute= require("./routes/review.js");
 const authenticationRoute= require("./routes/authentication.js");
 const filterAndSearchRoute= require("./routes/filterAndSearch.js");
+const userProfile= require("./routes/userProfile.js");
 const session= require("express-session");
 const flash= require("connect-flash");
 const passport=require("passport");
@@ -164,6 +165,7 @@ app.use("/listings",listingsRoute);
 app.use("/listings/:id/reviews",reviewRoute);
 app.use("/",authenticationRoute);
 app.use("/search",filterAndSearchRoute);
+app.use("/profile",userProfile);
 
 
 // app.all("*",(req,res,next)=>{
