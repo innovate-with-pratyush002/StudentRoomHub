@@ -104,3 +104,44 @@ document.getElementById('locateBtn').addEventListener('click', () => {
 //  manual typing
 document.getElementById('location').addEventListener('change', updateMapFromAddress);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //    MAANA KABHI TUMSE MILNA NAA HUA,
+  //    PAR DURIYON KA BHI KABHI ANDAJA NAA HUA.
+  //    TUM SHAHAR CHHOD GAYE JO HAMARA,
+  //    NAA JAANE KYO AB APNA HI SHAHAR BEGAANA KYO HUA.
