@@ -35,7 +35,7 @@
             <option value="Shared" <%= Data.roomType === "Shared" ? "selected" : "" %>>Shared</option>
           </select>
 
-          <!-- Preferred Tenant -->
+          <!--tenant -->
           <label>Preferred Tenant</label> 
           <select name="place[preferredTenant]" required>
             <option value="">Select Tenant</option>
@@ -44,7 +44,7 @@
             <option value="Any" <%= Data.preferredTenant === "Any" ? "selected" : "" %>>Any</option>
           </select>
 
-          <!-- Availability -->
+          <!--availability -->
           <label>Availability</label> 
           <select name="place[availabilityStatus]">
             <option value="Available" <%= Data.availabilityStatus === "Available" ? "selected" : "" %>>
@@ -55,7 +55,7 @@
             </option>
           </select>
 
-          <!-- Contact -->
+          <!-- contact-->
           <label>Contact</label> 
           <input
             type="text"
@@ -87,7 +87,7 @@
       </form>
     </div>
 
-    <!-- Inject listing data -->
+    <!-- Inject listing Data -->
     <script>
       const listingData = <%- JSON.stringify({
         id: Data._id,

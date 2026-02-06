@@ -1,4 +1,3 @@
-/* --- General Setup --- */
 :root {
     --primary-color: #0695a2;
     --primary-hover: #047a85;
@@ -17,7 +16,6 @@ body {
     padding: 0;
 }
 
-/* --- Detail Container & Headings --- */
 .detail-container {
     max-width: 900px;
     margin: 20px auto;
@@ -42,7 +40,6 @@ body {
     margin-bottom: 15px;
 }
 
-/* --- Image Section --- */
 .cardImg {
     max-height: 480px;
     overflow: hidden;
@@ -67,7 +64,6 @@ body {
     transform: scale(1.02);
 }
 
-/* --- Info Cards --- */
 .info-card-container {
     display: flex;
     flex-wrap: wrap;
@@ -123,7 +119,7 @@ body {
     color: #e67e22;
 }
 
-/* --- Buttons --- */
+
 .buttons {
     display: flex;
     gap: 15px;
@@ -163,7 +159,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* --- Divider --- */
+
 .section-divider {
     border: 0;
     height: 1px;
@@ -171,7 +167,7 @@ body {
     margin: 30px 0;
 }
 
-/* --- Map and Reviews Layout --- */
+/* --- Map and Reviews--- */
 .map-and-reviews-wrapper {
     display: flex;
     gap: 25px;
@@ -194,7 +190,7 @@ body {
     color: #666;
 }
 
-/* --- Reviews Section --- */
+/* --- Reviews Section -- */
 .reviews-section {
     flex: 1;
     min-width: 340px;
@@ -208,7 +204,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Review Form */
+   /* Review Form */
 .form-heading {
     color: var(--primary-color);
     margin-top: 0;
@@ -320,9 +316,8 @@ body {
     font-size: 0.8rem;
 }
 
-/* --- Responsive Design --- */
+/* --- Responsive */
 
-/* Extra small screens (up to 350px) */
 @media (max-width: 350px) {
 
      .detail-container {
@@ -392,7 +387,6 @@ body {
     }
 }
 
-/* Small screens (350px – 600px) */
 @media (max-width: 600px) {
     .detail-container {
         margin: 10px;
@@ -433,7 +427,7 @@ body {
     }
 }
 
-/* Medium screens (600px – 900px) */
+
 @media (max-width: 900px) {
     .detail-container {
         padding: 25px;
@@ -465,7 +459,7 @@ body {
     }
 }
 
-/* Large screens (900px and above) */
+
 @media (min-width: 901px) {
     .info-card-container {
         flex-wrap: wrap;

@@ -7,13 +7,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let marker;
 
-// Helper: Update form fields
+
 function setCoordinates(lat, lon) {
   document.getElementById('lat').value = lat;
   document.getElementById('lon').value = lon;
 }
 
-// Reverse geocode: coordinates → address
+// reverse geocode
 async function updateAddress(lat, lon) {
   try {
     const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
@@ -28,7 +28,7 @@ async function updateAddress(lat, lon) {
   }
 }
 
-// Forward geocode: address → coordinates
+// forward geocode
 async function updateMapFromAddress() {
   const location = document.getElementById('location').value;
   if (!location) return;
@@ -47,7 +47,7 @@ async function updateMapFromAddress() {
 
       setCoordinates(lat, lon);
 
-      // Update on drag
+      //drag in map
       marker.on('dragend', async (e) => {
         const pos = e.target.getLatLng();
         setCoordinates(pos.lat, pos.lng);
@@ -59,7 +59,7 @@ async function updateMapFromAddress() {
   }
 }
 
-// Map click → place draggable marker
+// Map click
 map.on('click', async function(e) {
   const { lat, lng } = e.latlng;
 
@@ -76,7 +76,7 @@ map.on('click', async function(e) {
   });
 });
 
-// Current location button
+// current location button
 document.getElementById('locateBtn').addEventListener('click', () => {
   if (!navigator.geolocation) return alert("Geolocation not supported by your browser.");
 
@@ -101,6 +101,6 @@ document.getElementById('locateBtn').addEventListener('click', () => {
   });
 });
 
-// Update map when user types location manually
+//  manual typing
 document.getElementById('location').addEventListener('change', updateMapFromAddress);
 

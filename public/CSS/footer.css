@@ -13,7 +13,6 @@ footer {
     margin-bottom: 1rem;
 }
 
-/* Section 1 - All in one line */
 .sec1 {
     display: flex;
     flex-wrap: wrap;
@@ -35,14 +34,12 @@ footer {
     color: rgb(6, 149, 162);
 }
 
-/* Website Name */
 .name {
     font-size: 22px;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-/* Footer Links */
 .other {
     display: flex;
     flex-wrap: wrap;
@@ -62,7 +59,6 @@ footer {
     text-decoration: underline;
 }
 
-/* Optional: Adjust spacing for small screens */
 @media (max-width: 480px) {
     .sec1, .other {
         flex-direction: row;

@@ -1,10 +1,8 @@
-                  // Elements
 const locationInput = document.getElementById('locationField');
 const stateInput = document.getElementById('stateField');
 const currentBtn = document.getElementById('currentLocationBtn');
 const form = document.querySelector('.edit-form');
 
-                   // Map
 let map = L.map('map').setView([20.5937, 78.9629], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19
@@ -14,7 +12,6 @@ let marker;
 let isUserTyping = false;
 let debounceTimer = null;
 
-                 /*  MARKER */
 function setMarker(lat, lon) {
   if (!marker) {
     marker = L.marker([lat, lon], { draggable: true }).addTo(map);
@@ -28,7 +25,6 @@ function setMarker(lat, lon) {
   map.setView([lat, lon], 15);
 }
 
-                /*  REVERSE */
 async function reverseGeocode(lat, lon, allowOverwrite) {
   try {
     const res = await axios.get(
@@ -62,7 +58,6 @@ async function reverseGeocode(lat, lon, allowOverwrite) {
   }
 }
 
-          /*  FORWARD */
 async function forwardGeocode() {
   if (!isUserTyping) return;
 
@@ -86,7 +81,6 @@ async function forwardGeocode() {
   }
 }
 
-           /* INPUT EVENTS*/
 function handleTyping() {
   isUserTyping = true;
   clearTimeout(debounceTimer);
@@ -100,13 +94,13 @@ function handleTyping() {
 locationInput.addEventListener('input', handleTyping);
 stateInput.addEventListener('input', handleTyping);
 
-              /*  MAP CLICK */
+              /*  map click */
 map.on('click', async e => {
   setMarker(e.latlng.lat, e.latlng.lng);
   await reverseGeocode(e.latlng.lat, e.latlng.lng, true);
 });
 
-           /* CURRENT LOCATION  */
+           /* curr loc  */
 currentBtn.addEventListener('click', () => {
   navigator.geolocation.getCurrentPosition(async pos => {
     setMarker(pos.coords.latitude, pos.coords.longitude);
@@ -114,13 +108,12 @@ currentBtn.addEventListener('click', () => {
   });
 });
 
-         /* INITIAL LOAD */
+         /* initial  */
 if (listingData.lat && listingData.lon) {
   setMarker(listingData.lat, listingData.lon);
   reverseGeocode(listingData.lat, listingData.lon, true);
 }
 
-           /*  SUBMIT */
 form.addEventListener('submit', () => {
   if (marker) {
     const p = marker.getLatLng();

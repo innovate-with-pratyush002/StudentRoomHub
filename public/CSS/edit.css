@@ -1,15 +1,13 @@
-/* Container holding form and map side by side */
 .Container {
   display: flex;
-  flex-wrap: wrap; /* So it looks okay on smaller screens */
+  flex-wrap: wrap; 
   gap: 20px;
   padding: 20px 150px 20px 150px;
   justify-content: space-between;
 }
 
-/* Form styling */
 .form-container {
-  flex: 1 1 400px; /* Grow/shrink, minimum 400px */
+  flex: 1 1 400px; 
   background-color: #f9f9f9;
   padding: 100px;
   border-radius: 8px;
@@ -38,9 +36,9 @@
   box-sizing: border-box;
 }
 
-/* Map container styling */
+
 .ShowMap {
-  flex: 1 1 400px; /* Same as form */
+  flex: 1 1 400px; 
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -65,8 +63,6 @@
   border-radius: 8px;
   border: 1px solid #ccc;
 }
-
-/* Update button styling at the bottom */
 button[type="submit"] {
   display: block;
   width: 81%;
@@ -84,7 +80,6 @@ button[type="submit"]:hover {
   background-color:rgb(5, 112, 122);;
 }
 
-/* Responsive for small screens */
 @media screen and (max-width: 900px) {
   .Container {
     flex-direction: column;

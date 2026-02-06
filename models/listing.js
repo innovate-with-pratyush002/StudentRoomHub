@@ -85,7 +85,7 @@ const listingSchema = new Schema(
         required: true
       },
       coordinates: {
-        type: [Number], // [longitude, latitude]
+        type: [Number], 
         required: true
       }
     }
@@ -98,24 +98,19 @@ const listingSchema = new Schema(
 
                //   INDEXES 
 
-// Geo search (map based room finding)
+
 listingSchema.index({ mapCoordinates: "2dsphere" });
 
-// City + state filtering
 listingSchema.index({ location: 1, state: 1 });
 
-// Budget filtering
 listingSchema.index({ price: 1 });
 
-// Text search (city / area / keywords)
+
 listingSchema.index({
   title: "text",
   location: "text",
   description: "text"
 });
-
-
-                 //  MIDDLEWARE 
 
 // Delete related reviews when a listing is deleted
 listingSchema.post("findOneAndDelete", async (listing) => {
@@ -124,8 +119,6 @@ listingSchema.post("findOneAndDelete", async (listing) => {
   }
 });
 
-
-                 //  MODEL
 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;

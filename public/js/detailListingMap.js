@@ -1,4 +1,3 @@
-// Initialize Leaflet map
 const map = L.map('map').setView([20.5937, 78.9629], 5);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -6,7 +5,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Fetch listing coordinates
+//find  listing coordinates
 async function getListingCoordinates() {
   try {
     if (!listingData || listingData.lat == null || listingData.lon == null) {
@@ -20,9 +19,9 @@ async function getListingCoordinates() {
   }
 }
 
-// Haversine formula for distance
+// for distance
 function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // km
+  const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
   const a =
@@ -33,8 +32,8 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
-
-// Show map with user and listing
+ 
+//user and listing
 async function showMapWithDistance() {
   const listingCoords = await getListingCoordinates();
   if (!listingCoords) return;
@@ -49,19 +48,16 @@ async function showMapWithDistance() {
       const userLat = position.coords.latitude;
       const userLon = position.coords.longitude;
 
-      // User marker
       L.marker([userLat, userLon])
         .addTo(map)
         .bindPopup("Your Location")
         .openPopup();
 
-      // Listing marker
       L.marker([listingCoords.lat, listingCoords.lon])
         .addTo(map)
         .bindPopup("Listing Location")
         .openPopup();
 
-      // Draw line
       const line = L.polyline(
         [
           [userLat, userLon],
@@ -70,10 +66,10 @@ async function showMapWithDistance() {
         { color: "blue" }
       ).addTo(map);
 
-      // Fit map to show both points
+  // show both points
       map.fitBounds(line.getBounds(), { padding: [50, 50] });
 
-      // Distance popup
+// distance popup
       const distance = calculateDistance(userLat, userLon, listingCoords.lat, listingCoords.lon).toFixed(2);
       const midLat = (userLat + listingCoords.lat) / 2;
       const midLon = (userLon + listingCoords.lon) / 2;
@@ -89,5 +85,4 @@ async function showMapWithDistance() {
   );
 }
 
-// Run map logic
 showMapWithDistance();

@@ -60,7 +60,7 @@
   border-color: rgb(5, 133, 145);
 }
 
-/* Responsive Design */
+/* Responsive*/
 @media (max-width: 600px) {
   .form-container {
     padding: 1rem;

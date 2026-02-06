@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Global Styles */
 body {
     background-color: #f0f2f5;
     font-family: 'Poppins', sans-serif;
@@ -9,7 +8,6 @@ body {
     padding: 0;
 }
 
-/* Header Section */
 .header-container {
     text-align:left;
     padding: 3rem 1rem 2rem;
@@ -34,7 +32,6 @@ body {
     margin-left: 4rem;
 }
 
-/* Card Grid */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -49,7 +46,6 @@ body {
     color: inherit;
 }
 
-/* Individual Card Styling */
 .rental-card {
     background-color: #fff;
     border-radius: 16px;
@@ -75,7 +71,7 @@ body {
 .card-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit:contain;
     transition: transform 0.5s ease;
 }
 
@@ -121,7 +117,7 @@ body {
 }
 
 .card-price-container {
-    margin-top: auto; /* Push price to the bottom */
+    margin-top: auto; 
     text-align: left;
 }
 
@@ -137,7 +133,6 @@ body {
     margin-left: 0.2rem;
 }
 
-/* Responsive Breakpoints */
 @media (max-width: 1200px) {
     .card-grid {
         padding: 0 2rem;
@@ -154,19 +149,19 @@ body {
 }
 
 @media (max-width: 480px) {
-    .main-title {
+        .card-grid {
+        margin: 1rem 0 1rem 0;
+    }
+    /* .main-title {
         font-size: 2rem;
-    }
-    .subtitle {
+    } */
+     /* .subtitle {
         font-size: 1rem;
-    }
-    .card-grid {
-        grid-template-columns: 1fr;
-    }
+    } 
     .card-title {
         font-size: 1.3rem;
-    }
-    .card-price {
+    } */ 
+    /* .card-price {
         font-size: 1.5rem;
-    }
+    } */
 }

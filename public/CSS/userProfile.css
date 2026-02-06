@@ -35,7 +35,6 @@ body {
 }
 
 
-      /* LISTINGS  */
 .listings-section {
   padding: 2rem 1rem 4rem;
 }
@@ -117,10 +116,6 @@ body {
   font-weight: 400;
   color: #7f8c8d;
 }
-
-
-/* ============== RESPONSIVE =========== */
-
 
 @media (max-width: 1024px) {
   .profile-name {

@@ -74,7 +74,7 @@ passport.use(new GoogleStrategy({
     user = await userAuth.findOne({ email: email });
 
     if (user) {
-      // email matched → update googleId 
+      // email matched  update googleId 
       user.googleId = profile.id;
       user.name = profile.displayName;
       user.picture = profile.photos?.[0]?.value;
@@ -178,6 +178,12 @@ app.use((err,req,res,next)=>{
     let{status=500,message="Something Went Wrong!"}=err;
     res.status(status).send(message); 
 });
+
+
+
+
+
+
 
 
 
