@@ -139,7 +139,7 @@ app.listen(3000,()=>{
 
 //home route
 app.get("/",wrapAsync(async(req,res)=>{
-     res.send("<h1>Home Page</h1>");
+     res.redirect("/listings");
 }));
 
 // app.get("/check",async(req,res)=>{

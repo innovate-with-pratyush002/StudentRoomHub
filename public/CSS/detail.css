@@ -176,7 +176,7 @@ body {
 
 .map-section {
     flex: 1;
-    min-width: 450px;
+   
 }
 
 #map, .map-placeholder {
@@ -477,4 +477,3 @@ body {
         height: 400px;
     }
 }
-

@@ -10,8 +10,7 @@ const User = new Schema({
   username: {
     type: String,
     unique: true,
-    sparse: true,
-    default: null
+    sparse: true
   },
 
   googleId: { type: String, unique: true, sparse: true },
@@ -22,7 +21,9 @@ const User = new Schema({
 
 User.plugin(passportLocalMongoose, {
   usernameField: 'username',
-  usernameLowerCase: true
+  usernameLowerCase: true,
+  limitAttempts: true,
+  usernameUnique: false 
 });
 
 

@@ -1,47 +1,50 @@
+<nav class="navbar">
+  <div class="nav-left">
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-solid fa-star"></i> RoomForU
+    </a>
+  </div>
 
+  
+  <div class="search-bar">
+    <form action="/search" method="get">
+      <input
+        class="search-inp" 
+        type="text"
+        name="search"
+        placeholder="Search by city, area, keywords..."
+        class="search-inp"
+      >
+      <button class="search-btn" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+  </div>
 
-<nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-star"></i> RoomForU</a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <!-- Hamburger -->
+  <button class="menu-toggle" onclick="toggleMenu()">
+   <i class="fa-solid fa-bars"></i>
+  </button>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">       
-        <div class="search-bar">
-          <form action="/search" method="get">
-            <input 
-              type="text"
-              name="search"
-              placeholder="Search by city, area, keywords..." 
-              class="search-inp"
-            >   
-            <button class="search-btn" type="submit">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </form>                   
-        </div>
+  <!-- Nav links -->
+  <div class="nav-right" id="navMenu">
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/listings">Listings</a>
+    <a class="nav-link" href="/listings/new">Add New-Location</a>
+    <a class="nav-link" href="/logout">Logout</a>
 
+    <!--profile icon -->
+    <a class="profile pbtn-div desktop-only" href="/profile">
+      <i class="fa-regular fa-circle-user"></i>
+    </a>
 
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/">Home</a>
-          <a class="nav-link" href="/listings">Listings</a>
-          <a class="nav-link" href="/listings/new">Add New-Location</a>
-          <a class="nav-link" href="/logout">Logout</a>
-          <div class="profile">
-            <form action="/profile" method="get">
-              <button class="pbtn-div" type="submit"><i class="fa-regular fa-circle-user" type="submit"></i></button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--profile text -->
+    <a class="nav-link mobile-only" href="/profile">Profile</a>
   </div>
 </nav>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("open");
+  }
+</script>

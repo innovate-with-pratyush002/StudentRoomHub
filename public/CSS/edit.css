@@ -1,17 +1,19 @@
 .Container {
-  display: flex;
-  flex-wrap: wrap; 
-  gap: 20px;
-  padding: 20px 150px 20px 150px;
-  justify-content: space-between;
+  max-width: 500px;
+  margin: 2rem auto;
+  background-color: #fff;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 8px;
 }
 
 .form-container {
-  flex: 1 1 400px; 
-  background-color: #f9f9f9;
-  padding: 100px;
+  max-width: 500px;
+  margin: 2rem auto;
+  background-color: #fff;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .form-container h1 {
@@ -63,7 +65,7 @@
   border-radius: 8px;
   border: 1px solid #ccc;
 }
-button[type="submit"] {
+.buttons{
   display: block;
   width: 81%;
   padding: 15px;
