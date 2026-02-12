@@ -14,22 +14,26 @@
 <%}%>
 
 <style>
- .successFlash {
-  position: relative;
-  background-color: rgb(50, 179, 191);
-  color: #fff;
+.successFlash {
+  position: fixed;  
+  top: 80px;         
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;    
+
+  background-color: rgb(255, 255, 255);
+  color: rgb(50, 179, 191);
   padding: 15px 40px 15px 20px; 
   border-radius: 8px;
-  margin: 20px auto;
   width: fit-content;
   max-width: 90%;
-  height: auto;  
   font-size: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
   font-weight: 500;
   letter-spacing: 0.5px;
 }
+
 
 .successFlash .closeFlash {
   position: absolute;
@@ -56,13 +60,21 @@
 
 <script>
   const closeBtn = document.querySelector('.closeFlash');
+  const flash = document.querySelector('.successFlash');
 
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
-      const flash = document.querySelector('.successFlash');
-      if (flash) flash.remove();
+      flash.remove();
     });
   }
+
+  if (flash) {
+    setTimeout(() => {
+      flash.remove();
+    }, 2000); 
+  }
 </script>
+
+
 
 

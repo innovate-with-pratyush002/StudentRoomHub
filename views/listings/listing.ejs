@@ -2,15 +2,20 @@
 <link rel="stylesheet" href="/CSS/listings.css">
 
 
-    <div class="header-container">
+<div class="header-container">
+    <div class="header-text-section">
         <h1 class="main-title">Find Your Perfect <br>Student Rental 🏡</h1>
         <p class="subtitle">Search for affordable rooms and guest houses in top cities.</p>
     </div>
-    <div class="filter">
-        
-    </div>
+
+    <div class="header-image-section">
+        </div>
+</div>
+
+    <h1 class="title card-grid">Top Picks for You:</h1>
 
     <div class="card-grid">
+
         <% allListings.forEach((list) => { %>
         <a href="/listings/<%=list._id%>" class="card-link">
             <div class="rental-card">
