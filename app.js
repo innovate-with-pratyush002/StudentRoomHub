@@ -14,11 +14,13 @@ const authenticationRoute= require("./routes/authentication.js");
 const filterAndSearchRoute= require("./routes/filterAndSearch.js");
 const userProfile= require("./routes/userProfile.js");
 const session= require("express-session");
+const MongoStore = require('connect-mongo').default;
 const flash= require("connect-flash");
 const passport=require("passport");
 const LocalStrategy= require("passport-local");
 const userAuth=require("./models/authentication.js");
 const GoogleStrategy= require("passport-google-oauth20").Strategy;
+
 
 
 
@@ -32,7 +34,18 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 
 //Session 
+const store = MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    crypto: {secret: "who is tukku?"},
+    touchAfter: 24 * 3600, 
+});
+
+store.on("error", (e)=>{
+    console.log("Session Store Error", e);
+});
+
 const sessionDetail={
+    store,
     secret:"who is tukku?",
     resave: false,
     saveUninitialized: true,
@@ -118,7 +131,7 @@ passport.deserializeUser(async (id, done) => {
 
 
 //mongoose Connection
-const MONGO_URL="mongodb://127.0.0.1:27017/RoomForU";
+const MONGO_URL=process.env.MONGO_URI;
 main()
       .then(()=>{
         console.log("connected to DB");
