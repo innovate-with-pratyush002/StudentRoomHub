@@ -11,7 +11,7 @@ const upload = multer({ storage });
 
 
 //route for showing all listings:=>
-router.get("/",isLoggedIn,wrapAsync(ListingControllers.showAllListings));
+router.get("/",wrapAsync(ListingControllers.showAllListings));
 
 
 //add route where we can add a new listing:=> 

@@ -39,7 +39,7 @@ const sampleListings = [
 
   {
     title: "Double Room near Cyber City",
-    description: "Spacious double room for working professionals near Cyber City.",
+    description: "cious double room for working professionals near Cyber City.",
     image: { url: "69697edb8906baa755d5cd9c", fileName: "69697edb8906baa755d5cd9c" },
     price: 7500,
     location: "DLF Cyber City, Gurugram",
