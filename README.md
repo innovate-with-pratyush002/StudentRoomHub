@@ -60,12 +60,6 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-Important notes for production:
-
-- Use a MongoDB Atlas connection string or another hosted MongoDB instance for `MONGO_URI`
-- Update the Google OAuth callback URL in your Google Cloud Console to match your Render domain
-- The current app code uses a hardcoded session secret and localhost OAuth callback, so those should be updated in code if you want a fully production-ready deployment flow
-
 ## Prerequisites
 
 Before running locally, make sure you have:
