@@ -44,7 +44,7 @@
         <div class="info-card owner-card">
           <p class="card-title">Owner:</p>
           <p class="card-value">
-            <%= Data.user.username || Data.user.name %>
+            <%= Data.user?.username || Data.user?.name || "Unknown Owner" %>
           </p>
         </div>
 
@@ -75,8 +75,7 @@
 
       </div>
 
-      <% if (currentUser && currentUser._id.equals(Data.user._id)) { %>
-        <div class="buttons">
+        <% if (currentUser && Data.user && currentUser._id.equals(Data.user._id)) { %>        <div class="buttons">
           <a href="/listings/<%= Data._id %>/edit" class="btn edit-btn">Edit Listing</a>
           <form method="post" action="/listings/<%= Data._id %>?_method=DELETE" class="delete-form">
             <button class="btn delete-btn">Delete Listing</button>
