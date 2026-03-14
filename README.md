@@ -1,32 +1,37 @@
 # StudentRoomHub
 
-StudentRoomHub is a student-focused room rental platform built with Node.js, Express, MongoDB, and EJS. It helps students discover rooms or PG accommodations in different cities, while allowing property owners to publish and manage listings with images, pricing, tenant preferences, and map coordinates.
+StudentRoomHub is a full-stack room rental platform built for students who need to find rooms, PGs, or shared accommodations in other cities. Property owners can create accounts, publish listings with images and pricing details, and manage their properties from a personal profile page.
+
+The project is deployed on Render and uses Node.js, Express, MongoDB, EJS, Passport.js, Cloudinary, and Multer.
 
 ## Features
 
-- User signup and sign-in with local authentication
-- Google OAuth login support
+- Local authentication with signup and signin
+- Google OAuth login
 - Create, edit, and delete room listings
-- Upload listing images with Cloudinary
-- Location-aware listings with stored map coordinates
-- Search listings using text search across title, description, and location
-- Review system with ratings and comments
-- User profile page showing owned listings
-- Flash messages for common success and error states
+- Upload listing images using Cloudinary
+- Store listing coordinates for map-based location data
+- Search listings by title, description, and location
+- Add and delete reviews with ratings
+- User profile page showing posted listings
+- Flash messages for common actions and errors
 
 ## Tech Stack
 
 - Node.js
 - Express
 - MongoDB with Mongoose
-- EJS and `ejs-mate`
-- Passport.js for authentication
-- Cloudinary + Multer for image uploads
+- EJS with `ejs-mate`
+- Passport.js
+- Cloudinary
+- Multer
+- Express Session with `connect-mongo`
 - Method Override
 - Connect Flash
 
 ## Project Structure
 
+```text
 StudentRoomHub/
 ├── app.js
 ├── cloudConfig.js
@@ -36,19 +41,41 @@ StudentRoomHub/
 ├── models/
 ├── public/
 ├── routes/
+├── utils/
 └── views/
+```
 
+## Deployment
+
+This project is deployed on Render.
+
+If you want to publish your own version, configure these environment variables in Render:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+cloudName=your_cloudinary_cloud_name
+apiKey=your_cloudinary_api_key
+apiSecret=your_cloudinary_api_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+```
+
+Important notes for production:
+
+- Use a MongoDB Atlas connection string or another hosted MongoDB instance for `MONGO_URI`
+- Update the Google OAuth callback URL in your Google Cloud Console to match your Render domain
+- The current app code uses a hardcoded session secret and localhost OAuth callback, so those should be updated in code if you want a fully production-ready deployment flow
 
 ## Prerequisites
 
-Before running the project locally, make sure you have:
+Before running locally, make sure you have:
 
-- Node.js 18 or later
-- MongoDB running locally on `mongodb://127.0.0.1:27017/RoomForU`
-- A Cloudinary account for image storage
-- A Google OAuth app if you want to use Google sign-in
+- Node.js installed
+- MongoDB connection string
+- Cloudinary account
+- Google OAuth credentials for Google login
 
-## Installation
+## Local Installation
 
 1. Clone the repository:
 
@@ -66,6 +93,7 @@ npm install
 3. Create a `.env` file in the project root:
 
 ```env
+MONGO_URI=your_mongodb_connection_string
 cloudName=your_cloudinary_cloud_name
 apiKey=your_cloudinary_api_key
 apiSecret=your_cloudinary_api_secret
@@ -73,21 +101,19 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-4. Start MongoDB locally.
-
-5. Run the application:
+4. Start the app:
 
 ```bash
 node app.js
 ```
 
-For development with automatic reloads:
+For development:
 
 ```bash
 npx nodemon app.js
 ```
 
-6. Open the app in your browser:
+5. Open:
 
 ```text
 http://localhost:3000
@@ -95,7 +121,9 @@ http://localhost:3000
 
 ## Seed Data
 
-Sample listing data is available in [`init/data.js`](/home/pratyush/Development/GitHub/RoomHub/StudentRoomHub/init/data.js). To load seed data, run:
+Sample listing data is available in [`init/data.js`](./init/data.js).
+
+To seed the database:
 
 ```bash
 node init/index.js
@@ -108,15 +136,14 @@ Note: the seed script clears the existing `Listing` collection before inserting 
 - `/signup` - create an account
 - `/signin` - sign in with username and password
 - `/auth/google` - sign in with Google
+- `/logout` - log out the current user
 - `/listings` - view all listings
 - `/listings/new` - create a new listing
-- `/listings/:id` - view listing details
-- `/listings/:id/edit` - edit a listing
-- `/listings/:id/reviews` - create or delete reviews
-- `/search?search=<query>` - search listings
+- `/listings/:id` - view listing details after login
+- `/listings/:id/edit` - edit a listing if you are the owner
+- `/listings/:id/reviews` - add or delete reviews
+- `/search?search=<query>` - search listings after login
 - `/profile` - view the current user's profile and listings
-
-## Data Models
 
 ### Listing
 
@@ -126,7 +153,8 @@ A listing contains:
 - description
 - image metadata
 - price
-- location and state
+- location
+- state
 - room type
 - preferred tenant
 - availability status
@@ -150,23 +178,14 @@ A user contains:
 
 - name
 - email
-- username for local auth
+- username for local authentication
 - optional Google account ID
 - optional profile picture
 
-## Environment Notes
-
-A few settings are currently hardcoded in the application:
-
-- The server runs on port `3000`
-- MongoDB connection points to local database `RoomForU`
-- Google OAuth callback URL is `http://localhost:3000/auth/google/callback`
-- Session secret is defined directly in `app.js`
-
 ## Contributing
 
-Open contributions are welcome. Read [`CONTRIBUTING.md`](/home/pratyush/Development/GitHub/RoomHub/StudentRoomHub/CONTRIBUTING.md) before opening an issue or pull request.
+Contributions are welcome. Read [`CONTRIBUTING.md`](./CONTRIBUTING.md) before opening an issue or pull request.
 
 ## License
 
-This project is currently published with the `ISC` license as defined in [`package.json`](/home/pratyush/Development/GitHub/RoomHub/StudentRoomHub/package.json).
+This project is licensed under the `MIT` license. See [`LICENSE`](./LICENSE).
