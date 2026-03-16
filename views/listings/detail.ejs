@@ -58,11 +58,6 @@
           <p class="infoHeading">Reviews</p>
           <p class="infoText"><%= Data.reviews.length %> ratings shared</p>
         </div>
-
-        <div class="infoItem">
-          <p class="infoHeading">Distance</p>
-          <p class="infoText" id="distanceText">Detecting your current location...</p>
-        </div>
       </div>
 
       <% if (currentUser && Data.user && currentUser._id.equals(Data.user._id)) { %>

@@ -161,6 +161,28 @@ function showUserAndListingLocation(listingLocation, userLocation) {
     .openOn(map);
 }
 
+function handleLocationError(error, listingLocation) {
+  showOnlyListingLocation(listingLocation);
+
+  if (!error) {
+    alert("Location could not be accessed. Please turn on location and try again.");
+    return;
+  }
+
+  if (error.code === error.PERMISSION_DENIED) {
+    alert("Location permission is blocked. Please allow location access from your browser site settings.");
+    return;
+  }
+
+  const shouldRetry = confirm(
+    "Location is off or unavailable. Please turn on your device location, then press OK to try again."
+  );
+
+  if (shouldRetry) {
+    askUserLocation(listingLocation);
+  }
+}
+
 function askUserLocation(listingLocation) {
   if (!navigator.geolocation) {
     setDistanceMessage("Location support unavailable. Distance cannot be shown.");
@@ -179,14 +201,14 @@ function askUserLocation(listingLocation) {
 
       showUserAndListingLocation(listingLocation, userLocation);
     },
-    function () {
+    function (error) {
       setDistanceMessage("Location permission denied, so distance cannot be shown.");
-      showOnlyListingLocation(listingLocation);
+      handleLocationError(error, listingLocation);
     },
     {
       enableHighAccuracy: true,
       timeout: 10000,
-      maximumAge: 300000
+      maximumAge: 0
     }
   );
 }
