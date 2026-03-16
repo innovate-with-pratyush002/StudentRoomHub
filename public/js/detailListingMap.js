@@ -163,11 +163,12 @@ function showUserAndListingLocation(listingLocation, userLocation) {
 
 function askUserLocation(listingLocation) {
   if (!navigator.geolocation) {
-    setDistanceMessage("Turn on location to see distance from your current place.");
-    alert("Please turn on location to see the distance from your current location.");
+    setDistanceMessage("Location support unavailable. Distance cannot be shown.");
     showOnlyListingLocation(listingLocation);
     return;
   }
+
+  setDistanceMessage("Please allow site location permission to see the distance.");
 
   navigator.geolocation.getCurrentPosition(
     function (position) {
@@ -179,8 +180,7 @@ function askUserLocation(listingLocation) {
       showUserAndListingLocation(listingLocation, userLocation);
     },
     function () {
-      setDistanceMessage("Turn on location to see distance from your current place.");
-      alert("Location is off. Please turn on your location to see the distance.");
+      setDistanceMessage("Location permission denied, so distance cannot be shown.");
       showOnlyListingLocation(listingLocation);
     },
     {
@@ -200,7 +200,6 @@ async function startMap() {
     return;
   }
 
-  setDistanceMessage("Detecting your current location...");
   askUserLocation(listingLocation);
 }
 
