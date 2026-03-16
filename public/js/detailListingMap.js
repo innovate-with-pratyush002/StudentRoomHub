@@ -1,88 +1,207 @@
-const map = L.map('map').setView([20.5937, 78.9629], 5);
+const map = L.map("map");
+const mapContainer = document.getElementById("map");
+const distanceText = document.getElementById("distanceText");
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+map.setView([20.5937, 78.9629], 5);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
-  attribution: '&copy; OpenStreetMap contributors'
+  attribution: "&copy; OpenStreetMap contributors"
 }).addTo(map);
 
-//find  listing coordinates
-async function getListingCoordinates() {
+function isValidCoordinate(lat, lon) {
+  return (
+    Number.isFinite(lat) &&
+    Number.isFinite(lon) &&
+    lat >= -90 &&
+    lat <= 90 &&
+    lon >= -180 &&
+    lon <= 180
+  );
+}
+
+async function geocodePlace(placeName) {
+  if (!placeName || !placeName.trim()) {
+    return null;
+  }
+
   try {
-    if (!listingData || listingData.lat == null || listingData.lon == null) {
-      throw new Error("No coordinates found");
+    const url =
+      "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+      encodeURIComponent(placeName.trim());
+
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      return null;
     }
-    return { lat: listingData.lat, lon: listingData.lon };
-  } catch (err) {
-    console.error("Error fetching listing location:", err);
-    alert("Failed to load listing location.");
+
+    const data = await response.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return null;
+    }
+
+    const lat = parseFloat(data[0].lat);
+    const lon = parseFloat(data[0].lon);
+
+    if (!isValidCoordinate(lat, lon)) {
+      return null;
+    }
+
+    return { lat, lon };
+  } catch (error) {
+    console.error("Could not geocode listing location:", error);
     return null;
   }
 }
 
-// for distance
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
+function setMapMessage(message) {
+  mapContainer.innerHTML = "<p>" + message + "</p>";
 }
- 
-//user and listing
-async function showMapWithDistance() {
-  const listingCoords = await getListingCoordinates();
-  if (!listingCoords) return;
 
+function setDistanceMessage(message) {
+  if (distanceText) {
+    distanceText.textContent = message;
+  }
+}
+
+async function getListingLocation() {
+  if (!listingData) {
+    return null;
+  }
+
+  if (isValidCoordinate(listingData.lat, listingData.lon)) {
+    return {
+      lat: listingData.lat,
+      lon: listingData.lon
+    };
+  }
+
+  const searchCandidates = [
+    listingData.location,
+    [listingData.location, listingData.state].filter(Boolean).join(", "),
+    listingData.state
+  ].filter(Boolean);
+
+  for (const candidate of searchCandidates) {
+    const geocodedLocation = await geocodePlace(candidate);
+
+    if (geocodedLocation) {
+      return geocodedLocation;
+    }
+  }
+
+  return null;
+}
+
+function getDistanceInKm(lat1, lon1, lat2, lon2) {
+  const earthRadius = 6371;
+  const latDiff = (lat2 - lat1) * Math.PI / 180;
+  const lonDiff = (lon2 - lon1) * Math.PI / 180;
+
+  const part1 = Math.sin(latDiff / 2) * Math.sin(latDiff / 2);
+  const part2 = Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180);
+  const part3 = Math.sin(lonDiff / 2) * Math.sin(lonDiff / 2);
+
+  const finalValue = part1 + (part2 * part3);
+  const angle = 2 * Math.atan2(Math.sqrt(finalValue), Math.sqrt(1 - finalValue));
+
+  return earthRadius * angle;
+}
+
+function showOnlyListingLocation(listingLocation) {
+  const listingMarker = L.marker([listingLocation.lat, listingLocation.lon]).addTo(map);
+
+  listingMarker.bindPopup("Listing Location").openPopup();
+
+  map.setView([listingLocation.lat, listingLocation.lon], 15);
+}
+
+function showUserAndListingLocation(listingLocation, userLocation) {
+  const userMarker = L.marker([userLocation.lat, userLocation.lon]).addTo(map);
+  userMarker.bindPopup("Your Location");
+
+  const listingMarker = L.marker([listingLocation.lat, listingLocation.lon]).addTo(map);
+  listingMarker.bindPopup("Listing Location");
+
+  const line = L.polyline(
+    [
+      [userLocation.lat, userLocation.lon],
+      [listingLocation.lat, listingLocation.lon]
+    ],
+    {
+      color: "blue"
+    }
+  ).addTo(map);
+
+  map.fitBounds(line.getBounds(), {
+    padding: [40, 40]
+  });
+
+  const distance = getDistanceInKm(
+    userLocation.lat,
+    userLocation.lon,
+    listingLocation.lat,
+    listingLocation.lon
+  ).toFixed(2);
+
+  setDistanceMessage(distance + " km from your current location");
+
+  const middleLat = (userLocation.lat + listingLocation.lat) / 2;
+  const middleLon = (userLocation.lon + listingLocation.lon) / 2;
+
+  L.popup()
+    .setLatLng([middleLat, middleLon])
+    .setContent("<b>Distance:</b> " + distance + " km")
+    .openOn(map);
+}
+
+function askUserLocation(listingLocation) {
   if (!navigator.geolocation) {
-    alert("Geolocation not supported by your browser.");
+    setDistanceMessage("Turn on location to see distance from your current place.");
+    alert("Please turn on location to see the distance from your current location.");
+    showOnlyListingLocation(listingLocation);
     return;
   }
 
   navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const userLat = position.coords.latitude;
-      const userLon = position.coords.longitude;
+    function (position) {
+      const userLocation = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      };
 
-      L.marker([userLat, userLon])
-        .addTo(map)
-        .bindPopup("Your Location")
-        .openPopup();
-
-      L.marker([listingCoords.lat, listingCoords.lon])
-        .addTo(map)
-        .bindPopup("Listing Location")
-        .openPopup();
-
-      const line = L.polyline(
-        [
-          [userLat, userLon],
-          [listingCoords.lat, listingCoords.lon]
-        ],
-        { color: "blue" }
-      ).addTo(map);
-
-  // show both points
-      map.fitBounds(line.getBounds(), { padding: [50, 50] });
-
-// distance popup
-      const distance = calculateDistance(userLat, userLon, listingCoords.lat, listingCoords.lon).toFixed(2);
-      const midLat = (userLat + listingCoords.lat) / 2;
-      const midLon = (userLon + listingCoords.lon) / 2;
-
-      L.popup()
-        .setLatLng([midLat, midLon])
-        .setContent(`<b>Distance:</b> ${distance} km`)
-        .openOn(map);
+      showUserAndListingLocation(listingLocation, userLocation);
     },
-    () => {
-      alert("Unable to access your current location.");
+    function () {
+      setDistanceMessage("Turn on location to see distance from your current place.");
+      alert("Location is off. Please turn on your location to see the distance.");
+      showOnlyListingLocation(listingLocation);
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 300000
     }
   );
 }
 
-showMapWithDistance();
+async function startMap() {
+  const listingLocation = await getListingLocation();
+
+  if (!listingLocation) {
+    setMapMessage("Location could not be loaded for this listing.");
+    setDistanceMessage("Distance could not be calculated for this listing.");
+    return;
+  }
+
+  setDistanceMessage("Detecting your current location...");
+  askUserLocation(listingLocation);
+}
+
+startMap();

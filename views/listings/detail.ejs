@@ -1,214 +1,166 @@
 <% layout('layouts/boilerplate') -%>
 
-  <link rel="stylesheet" href="/CSS/detail.css">
-  <link rel="stylesheet" href="/path/to/starability-growRotate.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="/CSS/detail.css">
+<link rel="stylesheet" href="/path/to/starability-growRotate.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-  <div class="detail-container">
-    <section class="listing-details-section">
-      <h1 class="listing-title">
-        <%= Data.title %>
-      </h1>
+<div class="detailPage">
+  <section class="topSection">
+    <div class="imageBox">
+      <img src="<%= Data.image.url %>" alt="<%= Data.title %>" class="mainImage">
+      <span class="statusBadge"><%= Data.availabilityStatus %></span>
+    </div>
 
-      <div class="cardImg">
-        <img src="<%= Data.image.url %>" alt="Listing Image" class="card-img" />
+    <div class="infoSection">
+      <p class="pageTag">Student stay details</p>
+      <h1 class="mainTitle"><%= Data.title %></h1>
+      <p class="descText"><%= Data.description %></p>
+
+      <div class="topInfoRow">
+        <div class="priceBox">
+          <p class="smallLabel">Monthly Rent</p>
+          <p class="priceText">&#8377; <%= Data.price.toLocaleString("en-In") %><span>/month</span></p>
+        </div>
+
+        <div class="ownerBox">
+          <p class="smallLabel">Owner</p>
+          <p class="ownerText"><%= Data.user?.username || Data.user?.name || "Unknown Owner" %></p>
+        </div>
       </div>
 
-      <div class="info-card-container">
-        <div class="info-card description-card">
-          <p class="card-title">Description:</p>
-          <p class="card-value">
-            <%= Data.description %>
-          </p>
+      <div class="infoGrid">
+        <div class="infoItem">
+          <p class="infoHeading">Location</p>
+          <p class="infoText"><%= Data.location %></p>
         </div>
 
-        <div class="info-card">
-          <p class="card-title">Price:</p>
-          <p class="card-value price-value">&#8377; <%= Data.price.toLocaleString("en-In") %>/month</p>
+        <div class="infoItem">
+          <p class="infoHeading">State</p>
+          <p class="infoText"><%= Data.state %></p>
         </div>
 
-        <div class="info-card">
-          <p class="card-title">Location:</p>
-          <p class="card-value">
-            <%= Data.location %>
-          </p>
+        <div class="infoItem">
+          <p class="infoHeading">Room Type</p>
+          <p class="infoText"><%= Data.roomType %></p>
         </div>
 
-        <div class="info-card">
-          <p class="card-title">State:</p>
-          <p class="card-value">
-            <%= Data.state %>
-          </p>
+        <div class="infoItem">
+          <p class="infoHeading">Preferred Tenant</p>
+          <p class="infoText"><%= Data.preferredTenant %></p>
         </div>
 
-        <div class="info-card owner-card">
-          <p class="card-title">Owner:</p>
-          <p class="card-value">
-            <%= Data.user?.username || Data.user?.name || "Unknown Owner" %>
-          </p>
+        <div class="infoItem">
+          <p class="infoHeading">Contact</p>
+          <p class="infoText"><%= Data.contact.phone %></p>
         </div>
 
-        <div class="info-card">
-          <p class="card-title">Room Type:</p>
-          <p class="card-value price-value">
-            <%= Data.roomType %>
-          </p>
-        </div>
-        <div class="info-card">
-          <p class="card-title">Preferred Tenant:</p>
-          <p class="card-value price-value">
-            <%= Data.preferredTenant %>
-          </p>
-        </div>
-        <div class="info-card">
-          <p class="card-title">Availability Status:</p>
-          <p class="card-value price-value">
-            <%= Data.availabilityStatus %>
-          </p>
-        </div>
-        <div class="info-card">
-          <p class="card-title">Contact:</p>
-          <p class="card-value price-value">
-            <%= Data.contact.phone %>
-          </p>
+        <div class="infoItem">
+          <p class="infoHeading">Reviews</p>
+          <p class="infoText"><%= Data.reviews.length %> ratings shared</p>
         </div>
 
+        <div class="infoItem">
+          <p class="infoHeading">Distance</p>
+          <p class="infoText" id="distanceText">Detecting your current location...</p>
+        </div>
       </div>
 
-        <% if (currentUser && Data.user && currentUser._id.equals(Data.user._id)) { %>        <div class="buttons">
-          <a href="/listings/<%= Data._id %>/edit" class="btn edit-btn">Edit Listing</a>
-          <form method="post" action="/listings/<%= Data._id %>?_method=DELETE" class="delete-form">
-            <button class="btn delete-btn">Delete Listing</button>
+      <% if (currentUser && Data.user && currentUser._id.equals(Data.user._id)) { %>
+        <div class="buttonRow">
+          <a href="/listings/<%= Data._id %>/edit" class="commonBtn editBtn">Edit Listing</a>
+          <form method="post" action="/listings/<%= Data._id %>?_method=DELETE" class="deleteForm">
+            <button class="commonBtn deleteBtn">Delete Listing</button>
           </form>
         </div>
-        <% } %>
+      <% } %>
+    </div>
+  </section>
 
+  <section class="bottomSection">
+    <section class="mapSection whiteBox">
+      <div class="titleRow">
+        <h2 class="sectionTitle">Location Map</h2>
+        <p class="sectionNote">Quick area view</p>
+      </div>
+      <div id="map" class="mapBox">
+        <p>Map loading...</p>
+      </div>
     </section>
 
-    <hr class="section-divider">
+    <section class="reviewFormSection whiteBox">
+      <div class="titleRow">
+        <h2 class="sectionTitle">Add Your Rating</h2>
+        <p class="sectionNote">Share your experience</p>
+      </div>
 
-    <div class="map-and-reviews-wrapper">
-      <section class="map-section">
-        <h2 class="section-heading">Location Map</h2>
-        <div id="map" class="map-placeholder">
-          <p>Map loading...</p>
-        </div>
-      </section>
+      <div class="formBox">
+        <h3 class="formTitle">Share Your Experience</h3>
+        <form action="/listings/<%= Data._id %>/reviews" method="POST" class="reviewForm" novalidate>
+          <fieldset class="starability-growRotate ratingBox">
+            <legend><strong>Rating:</strong></legend>
+            <input type="radio" id="rate1" name="review[rating]" value="1"><label for="rate1" title="Terrible">1 star</label>
+            <input type="radio" id="rate2" name="review[rating]" value="2"><label for="rate2" title="Not good">2 stars</label>
+            <input type="radio" id="rate3" name="review[rating]" value="3" checked><label for="rate3" title="Average">3 stars</label>
+            <input type="radio" id="rate4" name="review[rating]" value="4"><label for="rate4" title="Very good">4 stars</label>
+            <input type="radio" id="rate5" name="review[rating]" value="5"><label for="rate5" title="Amazing">5 stars</label>
+          </fieldset>
 
-      <section class="reviews-section">
-        <h2 class="section-heading">Reviews & Ratings (<%= Data.reviews.length %>)</h2>
+          <div class="inputGroup">
+            <label for="comment" class="textLabel">Comment</label>
+            <textarea class="textArea" name="review[comment]" id="comment" rows="3" placeholder="Write your thoughts..." required></textarea>
+          </div>
+          <button class="commonBtn submitBtn">Submit Review</button>
+        </form>
+      </div>
+    </section>
+  </section>
 
-        <div class="add-review-box">
-          <h3 class="form-heading">Share Your Experience</h3>
-          <form action="/listings/<%= Data._id %>/reviews" method="POST" class="review-form" novalidate>
-            <fieldset class="starability-growRotate rating-fieldset">
-              <legend><strong>Rating:</strong></legend>
-              <input type="radio" id="rate1" name="review[rating]" value="1"><label for="rate1" title="Terrible">1
-                star</label>
-              <input type="radio" id="rate2" name="review[rating]" value="2"><label for="rate2" title="Not good">2
-                stars</label>
-              <input type="radio" id="rate3" name="review[rating]" value="3" checked><label for="rate3"
-                title="Average">3 stars</label>
-              <input type="radio" id="rate4" name="review[rating]" value="4"><label for="rate4" title="Very good">4
-                stars</label>
-              <input type="radio" id="rate5" name="review[rating]" value="5"><label for="rate5" title="Amazing">5
-                stars</label>
-            </fieldset>
-
-            <div class="comment-group">
-              <label for="comment" class="form-label">Comment</label>
-              <textarea class="form-textarea" name="review[comment]" id="comment" rows="3"
-                placeholder="Write your thoughts..." required></textarea>
-            </div>
-            <button class="btn submit-review-btn">Submit Review</button>
-          </form>
-        </div>
-
-        <div class="reviews-list">
-          <% if (Data.reviews.length===0) { %>
-            <p class="no-reviews">Be the first to leave a review!</p>
-            <% } %>
-
-              <% for (let review of Data.reviews) { %>
-                <div class="review-card">
-                  <div class="review-header">
-                    <h4 class="reviewer-name">
-                      <%= review.owner.username || review.owner.name || "Unknown User" %>
-                    </h4>
-                    <div class="review-rating">
-                      <p class="starability-result" data-rating="<%= review.rating %>"></p>
-                    </div>
-                  </div>
-                  <p class="review-comment">
-                    <%= review.comment %>
-                  </p>
-
-                  <% if (currentUser && currentUser._id.equals(review.owner._id)) { %>
-                    <form method="POST" action="/listings/<%= Data._id %>/reviews/<%= review._id %>?_method=DELETE"
-                      class="delete-review-form">
-                      <button class="btn delete-review-btn">Delete</button>
-                    </form>
-                    <% } %>
-                </div>
-                <% } %>
-        </div>
-      </section>
+  <section class="allReviewsSection whiteBox">
+    <div class="titleRow">
+      <h2 class="sectionTitle">Reviews & Ratings</h2>
+      <p class="sectionNote"><%= Data.reviews.length %> total</p>
     </div>
-  </div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <div class="reviewsGrid">
+      <% if (Data.reviews.length === 0) { %>
+        <p class="noReviews">Be the first to leave a review!</p>
+      <% } %>
 
-  <!-- inject listing data -->
-  <script>
-    const listingData = <% - JSON.stringify({
-      id: Data._id,
-      lat: Data.mapCoordinates ? Data.mapCoordinates.coordinates[1] : null,
-      lon: Data.mapCoordinates ? Data.mapCoordinates.coordinates[0] : null
-    }) %>;
-  </script>
+      <% for (let review of Data.reviews) { %>
+        <div class="reviewItem">
+          <div class="reviewTop">
+            <h4 class="userName"><%= review.owner.username || review.owner.name || "Unknown User" %></h4>
+            <div class="reviewStars">
+              <p class="starability-result" data-rating="<%= review.rating %>"></p>
+            </div>
+          </div>
+          <p class="reviewText"><%= review.comment %></p>
 
-  <!-- your JS -->
-  <script src="/js/detailListingMap.js"></script>
+          <% if (currentUser && currentUser._id.equals(review.owner._id)) { %>
+            <form method="POST" action="/listings/<%= Data._id %>/reviews/<%= review._id %>?_method=DELETE" class="deleteReviewForm">
+              <button class="commonBtn smallDeleteBtn">Delete</button>
+            </form>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+</div>
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<script>
+  const listingData = <%- JSON.stringify({
+    id: Data._id,
+    lat: Data.mapCoordinates ? Data.mapCoordinates.coordinates[1] : null,
+    lon: Data.mapCoordinates ? Data.mapCoordinates.coordinates[0] : null,
+    location: Data.location || "",
+    state: Data.state || ""
+  }) %>;
+</script>
 
+<script src="/js/detailListingMap.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- TERI AANKHO KI JO BAAT HAI, VO LAFZON ME KAHA AATI HAI.
+<!-- TERI AANKHO KI JO BAAT HAI, VO LAFZON ME KAHA AATI HAI.
      INME CHHUPE HAIN RAAJ KAYI, JAISE CHAND KI PARCHHAAYI HAI,
      NAZRE JHUKI TO HAYA LAGE, UTHE TO QAYAMAT LAAYI HAI.          -->
