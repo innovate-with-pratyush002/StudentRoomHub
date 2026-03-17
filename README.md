@@ -1,6 +1,6 @@
-# StudentRoomHub
+# RoomForU
 
-StudentRoomHub is a full-stack room rental platform built for students who need to find rooms, PGs, or shared accommodations in other cities. Property owners can create accounts, publish listings with images and pricing details, and manage their properties from a personal profile page.
+RoomForU is a full-stack room rental platform built for students who need to find rooms, PGs, or shared accommodations in other cities. Property owners can create accounts, publish listings with images and pricing details, and manage their properties from a personal profile page.
 
 The project is deployed on Render and uses Node.js, Express, MongoDB, EJS, Passport.js, Cloudinary, and Multer.
 
